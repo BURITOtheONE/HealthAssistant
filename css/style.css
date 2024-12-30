@@ -12063,28 +12063,30 @@ textarea.form-control-lg {
 .nav-item.dropdown:hover .dropdown-menu {
     position: absolute;
     display: block;
-    animation: dropmenu 0.5s;
+    animation: dropmenu 0.5s ease-in-out;
 }
 
 @keyframes dropmenu {
-    25% {
-        margin-top: -0.2rem;
-        display: block;
-    }
-    50% {
-        margin-top: 0.1rem;
-        display: block;
-        transform: rotate(5deg);
-    }
-    75% {
-        margin-top: 0.3rem;
-        display: block;
-    }
-    100% {
-        margin-top: 0rem;
-        display: block;
-        transform: rotate(0deg);
-    }
+  0% {
+      margin-top: -0.5rem;
+      transform: rotate(-5deg);
+      opacity: 0;
+  }
+  30% {
+      margin-top: 0.2rem;
+      transform: rotate(3deg);
+      opacity: 0.7;
+  }
+  60% {
+      margin-top: 0.1rem;
+      transform: rotate(-2deg);
+      opacity: 0.9;
+  }
+  100% {
+      margin-top: 0rem;
+      transform: rotate(0deg);
+      opacity: 1;
+  }
 }
 
 .divider {
@@ -12100,7 +12102,7 @@ textarea.form-control-lg {
     animation: hoverr 3s infinite;
 }
 
-/* Add sparkle animation */
+/* Add sparkle animation i want you to give me a visual representation of what should be included for a modern avocado color pallete website for a health assistant that includes a search bar for searching the healthy recipies, a fridge that displays all your products and a button to add. also exsisting products will have edit and delete buttons. also add a profile icon if the user is logged that when pressed shows a dropdown with functions. i want you to continue thinking about the website functionality and only give solutions that users will like. also the website will be used on a server, so everything like recipies ot items should be dynamic*/
 @keyframes hoverr {
     0% {
         transform: scale(1);
@@ -12191,4 +12193,177 @@ body, .bg-body{
   border-color: #E3F0AF; /* Change this to your desired color */
   box-shadow: 0 0 0 0.2rem #E3F0AF; /* Optional: Adds a subtle glow effect */
   outline: none; /* Removes the default blue outline */
+}
+
+/* General Animations */
+.card, .btn, .search-bar {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Navbar Enhancements */
+.nav-green {
+    background-color: #118B50;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-green .btn-profile img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.nav-green .btn-profile:hover img {
+    transform: scale(1.1);
+    box-shadow: 0 0 5px #FBF6E9;
+}
+
+/* Product Cards */
+.card {
+    border: 1px solid #E3F0AF;
+    border-radius: 10px;
+    background-color: #F5F5DC;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-edit {
+    background-color: #75C985;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.btn-edit:hover {
+    background-color: #5DA869;
+    box-shadow: 0 0 10px #8efa9b;
+}
+
+.btn-delete {
+    background-color: #F87171;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.btn-delete:hover {
+    background-color: #D14C4C;
+    box-shadow: 0 0 10px #FF6B6B;
+}
+
+/* Add Product Button */
+.btn-add {
+    background-color: #9EDF9C;
+    color: #118B50;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #75C985;
+    border-radius: 10px;
+}
+
+.btn-add:hover {
+    background-color: #75C985;
+    border-color: #118B50;
+    box-shadow: 0 0 10px #86A873;
+}
+
+/* Search Bar Focus */
+.search-bar {
+    border: 1px solid #E3F0AF;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+}
+
+.search-bar:focus {
+    border-color: #9EDF9C;
+    box-shadow: 0 0 10px #E3F0AF;
+}
+
+/* Recipe Cards */
+.card-recipe {
+    background-color: #FBF6E9;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-recipe img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.card-recipe:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-recipe img:hover {
+    transform: scale(1.05);
+}
+
+/* Profile Dropdown */
+.nav-item.dropdown {
+  position: relative;
+}
+
+.nav-item.dropdown .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%; /* Ensures it aligns below the parent */
+  left: 0;
+  z-index: 1050;
+  background-color: #FBF6E9; /* Matches your green palette */
+  border: 2px solid #9EDF9C; /* Border for visibility */
+  border-radius: 10px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  left: -6rem;
+}
+
+.dropdown-item {
+  color: #212529;
+  padding: 10px 20px;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #9EDF9C;
+  color: #118B50;
+}
+
+
+/* Loading Spinner (Optional) */
+.spinner {
+    border: 4px solid #FBF6E9;
+    border-top: 4px solid #118B50;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
