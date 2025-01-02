@@ -12102,7 +12102,7 @@ textarea.form-control-lg {
     animation: hoverr 3s infinite;
 }
 
-/* Add sparkle animation i want you to give me a visual representation of what should be included for a modern avocado color pallete website for a health assistant that includes a search bar for searching the healthy recipies, a fridge that displays all your products and a button to add. also exsisting products will have edit and delete buttons. also add a profile icon if the user is logged that when pressed shows a dropdown with functions. i want you to continue thinking about the website functionality and only give solutions that users will like. also the website will be used on a server, so everything like recipies ot items should be dynamic*/
+/* Add sparkle animation */
 @keyframes hoverr {
     0% {
         transform: scale(1);
@@ -12165,6 +12165,15 @@ textarea.form-control-lg {
 
 .nav-green{
     background-color: #118B50;
+}
+
+.mini-navbar {
+  padding: 0.25rem 0.8rem; /* Reduce vertical and horizontal padding */
+  font-size: 1rem;  /* Adjust font size if needed */
+}
+
+.nav-light-green{
+  background-color: rgb(61, 157, 102);
 }
 
 body, .bg-body{
@@ -12334,6 +12343,10 @@ body, .bg-body{
   display: block;
   opacity: 1;
   transform: translateY(0);
+  left: -0.8rem;
+}
+
+.nav-item.dropdown:hover .profile-dropdown-menu {
   left: -6rem;
 }
 
@@ -12348,6 +12361,10 @@ body, .bg-body{
   color: #118B50;
 }
 
+.mini-navbar .navbar-nav .nav-item + .nav-item {
+  border-left: 1px solid #9EDF9C; /* Adds a vertical line */
+  padding-left: 1rem; /* Adds space after the line */
+}
 
 /* Loading Spinner (Optional) */
 .spinner {
