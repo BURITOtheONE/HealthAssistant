@@ -80,8 +80,8 @@
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;
   --bs-body-color-rgb: 33, 37, 41;
-  --bs-body-bg: #ffffff;
-  --bs-body-bg-rgb: 15, 112, 0;
+  --bs-body-bg: #fff;
+  --bs-body-bg-rgb: 255, 255, 255;
   --bs-emphasis-color: #000;
   --bs-emphasis-color-rgb: 0, 0, 0;
   --bs-secondary-color: rgba(33, 37, 41, 0.75);
@@ -12374,6 +12374,24 @@ body, .bg-body{
     width: 30px;
     height: 30px;
     animation: spin 1s linear infinite;
+}
+
+.buttton {
+  background-color: rgb(61, 157, 102);
+  --bs-btn-color: #FBF6E9;
+  --bs-btn-border-color: #198754;
+  --bs-btn-hover-color: #9EDF9C;
+  --bs-btn-hover-bg: #FBF6E9;
+  --bs-btn-hover-border-color: #9EDF9C;
+  --bs-btn-focus-shadow-rgb: 25, 135, 84;
+  --bs-btn-active-color: #9EDF9C;
+  --bs-btn-active-bg: #FBF6E9;
+  --bs-btn-active-border-color: #FBF6E9;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #FBF6E9;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #FBF6E9;
+  --bs-gradient: none;  
 }
 
 @keyframes spin {
