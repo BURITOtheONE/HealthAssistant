@@ -6316,9 +6316,10 @@
    * Additional non-bootstrap JavaScript
    * --------------------------------------------------------------------------
    */
-  
 
-
+  function addRecipe(){
+    
+  }  
 
 }));
 //# sourceMappingURL=bootstrap.bundle.js.map
