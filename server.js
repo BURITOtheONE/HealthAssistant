@@ -5,8 +5,8 @@ const session = require('express-session');
 const User = require('./public/assets/models/User');
 const app = express();
 
-// Connect to Url Shortener
-mongoose.connect('mongodb://localhost/urlShortener', {});
+// Connect to The DataBase
+mongoose.connect('mongodb://localhost/HealthAssistant', {});
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
@@ -15,7 +15,7 @@ app.use(express.static('public'));
 // Set up express-session middleware
 app.use(
   session({
-    secret: 'superSecretKey',  // Replace with your actual secret key
+    secret: 'superSecretKey',  // Replace with actual secret key in the future
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -39,27 +39,19 @@ function checkAuth(req, res, next) {
   }
 }
 
+
+
+// Home page route
+app.get('/', async (req, res) => { res.render('index', {}); });
+
 // Routes for other pages
 app.get('/fridge', (req, res) => res.render('fridge'));
+app.get('/recipe', (req, res) => res.render('recipe'));
+
 // Still in progress
 app.get('/myRecipes', (req, res) => res.render('myRecipes'));
 app.get('/login', (req, res) => res.render('login'));
 app.get('/register', (req, res) => res.render('register'));
-
-// Home page route
-app.get('/', async (req, res) => {
-  const userId = req.session.userId; // Get the logged-in user's ID
-
-  if (!userId) {
-    return res.redirect('/login'); // If not logged in, redirect to login
-  }
-
-  // **Changed here**: Use `userId` instead of `username` for the query
-  const shortUrls = await ShortUrl.find({ creator: userId });
-
-  res.render('index', { shortUrls });
-});
-
 
 // POST route to register a new User
 app.post('/register', async (req, res) => {

@@ -31,6 +31,7 @@
                 </div>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
+                        <% if (session.userId) { %>
                         <!-- Profile dropdown menu in the top-right corner -->
                         <button class="btn btn-profile" style="scale: 1.18;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="assets/img/pfp.png" alt="Profile">
@@ -42,6 +43,15 @@
                             <li><hr class="divider"></li>
                             <li><a class="dropdown-item" href="#">Logout</a></li>
                         </ul>
+                        <% } else { %>
+                            <button class="btn btn-profile" style="scale: 1.18;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="assets/img/pfp.png" alt="Profile">
+                            </button>
+                            <ul class="dropdown-menu profile-dropdown-menu">
+                                <li><a class="dropdown-item" href="/login">Login</a></li>
+                                <li><a class="dropdown-item" href="/register">Register</a></li>
+                            </ul>    
+                            <% } %>
                     </li>
                 </ul>
             </div>
@@ -76,75 +86,79 @@
         </div>
     </nav>
 
-    <div class="container">
+    <!-- Main Content -->
+    <div class="container mt-5">
         <div class="row">
           <div class="col-sm">
-            <div class="card" style="width: 20rem; margin: 2rem;">
-                <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            <div class="card" style="margin: 2rem">
+                <div class="container">
+                    <img class="card-img-top py-3" src="assets/img/pfp.png" alt="Card image cap">
+                </div>
                 <div class="card-body">
                   <h5 class="card-title">Card title</h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="recipe.html" class="btn buttton">Go somewhere</a>
+                  <a href="/recipe" class="btn buttton">Go somewhere</a>
                 </div>
               </div>
           </div>
           <div class="col-sm">
-            <div class="card" style="width: 20rem; margin: 2rem">
-                <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            <div class="card" style="margin: 2rem">
+                <img class="card-img-top" src="assets/img/pfp.png" alt="Card image cap">
                 <div class="card-body">
                   <h5 class="card-title">Card title</h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="recipe.html" class="btn buttton">Go somewhere</a>
+                  <a href="/recipe" class="btn buttton">Go somewhere</a>
                 </div>
               </div>
           </div>
           <div class="col-sm">
-            <div class="card" style="width: 20rem; margin: 2rem">
-                <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+            <div class="card" style="margin: 2rem">
+                <img class="card-img-top p-1 rounded-3" src="assets/img/pfp.png" alt="Card image cap">
                 <div class="card-body">
                   <h5 class="card-title">Card title</h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="recipe.html" class="btn buttton">Go somewhere</a>
+                  <a href="/recipe" class="btn buttton">Go somewhere</a>
                 </div>
               </div>
           </div>
         </div>
         <div class="row">
             <div class="col-sm">
-              <div class="card" style="width: 20rem; margin: 2rem">
-                  <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+              <div class="card" style="margin: 2rem">
+                  <img class="card-img-top p-2 rounded-4" src="assets/img/pfp.png" alt="Card image cap">
                   <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="recipe.html" class="btn buttton">Go somewhere</a>
+                    <a href="/recipe" class="btn buttton">Go somewhere</a>
                   </div>
                 </div>
             </div>
             <div class="col-sm">
-              <div class="card" style="width: 20rem; margin: 2rem">
-                  <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+              <div class="card" style="margin: 2rem">
+                  <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
                   <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="recipe.html" class="btn buttton">Go somewhere</a>
+                    <a href="/recipe" class="btn buttton">Go somewhere</a>
                   </div>
                 </div>
             </div>
             <div class="col-sm">
-              <div class="card" style="width: 20rem; margin: 2rem">
-                  <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+              <div class="card" style="margin: 2rem">
+                <div class="container">
+                    <img class="card-img-top rounded-5 mt-3" src="assets/img/pfp.png" alt="Card image cap">
+                </div>
                   <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="recipe.html" class="btn buttton">Go somewhere</a>
+                    <a href="/recipe" class="btn buttton">Go somewhere</a>
                   </div>
                 </div>
             </div>
           </div>
       </div>
 
-    <!-- Main Content -->
-    <div class="container mt-5">
+
     <!-- Footer -->
     <footer class="text-center mt-5">
         <p>&copy; 2025 Health Assistant. All rights reserved.</p>
