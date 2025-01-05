@@ -40,7 +40,6 @@ function checkAuth(req, res, next) {
 }
 
 
-
 // Home page route
 app.get('/', async (req, res) => { res.render('index', {}); });
 
@@ -50,7 +49,14 @@ app.get('/recipe', (req, res) => res.render('recipe'));
 
 // Still in progress
 app.get('/myRecipes', (req, res) => res.render('myRecipes'));
-app.get('/login', (req, res) => res.render('login'));
+app.get('/login', (req, res) =>{
+  if(!req.session.userId){
+    res.render('login')
+  }
+  else {
+    res.redirect('/')
+  }
+});
 app.get('/register', (req, res) => res.render('register'));
 
 // POST route to register a new User
@@ -108,10 +114,11 @@ app.post('/register', async (req, res) => {
         return res.redirect('/');  // If an error occurs, redirect back to home
       }
       res.clearCookie('connect.sid');  // Clear the session cookie
-      res.redirect('/');  // Redirect to home page after logout
+      setTimeout(() => {
+        res.redirect('/login');  // Redirect to Login after logout
+      }, 500);
     });
   });
-
   
     // Start server at localhost:1505
     app.listen(process.env.PORT || 1505, () => console.log('Server running...'));

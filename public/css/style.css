@@ -7995,6 +7995,31 @@ textarea.form-control-lg {
   margin-bottom: 3rem !important;
 }
 
+.my-super {
+  margin-top: 5rem !important;
+  margin-bottom: 5rem !important;
+
+  @media (min-width: 576px) { /* Small devices (landscape phones, 576px and up) */
+    margin-top: 6rem !important;
+    margin-bottom: 6rem !important;
+  }
+
+  @media (min-width: 768px) { /* Medium devices (tablets, 768px and up) */
+    margin-top: 5rem !important;
+    margin-bottom: 5rem !important;
+  }
+
+  @media (min-width: 992px) { /* Large devices (desktops, 992px and up) */
+    margin-top: 4rem !important;
+    margin-bottom: 4rem !important;
+  }
+
+  @media (min-width: 1200px) { /* Extra large devices (large desktops, 1200px and up) */
+    margin-top: 8rem !important;
+    margin-bottom: 8rem !important;
+  }
+}
+
 .my-auto {
   margin-top: auto !important;
   margin-bottom: auto !important;
@@ -12180,7 +12205,7 @@ body, .bg-body{
     background-color: #FBF6E9;
 }
 
-.buton {
+.btn-avocado {
     background-color: #9EDF9C;
     --bs-btn-color: #198754;
     --bs-btn-border-color: #198754;
@@ -12205,7 +12230,7 @@ body, .bg-body{
 }
 
 /* General Animations */
-.card, .btn, .search-bar {
+.card, .btn, .search-bar, .cred-input{
     transition: all 0.3s ease-in-out;
 }
 
@@ -12376,13 +12401,31 @@ body, .bg-body{
     animation: spin 1s linear infinite;
 }
 
-.buttton {
+.btn-avocado-out {
   background-color: rgb(61, 157, 102);
   --bs-btn-color: #FBF6E9;
   --bs-btn-border-color: #198754;
   --bs-btn-hover-color: #9EDF9C;
   --bs-btn-hover-bg: #FBF6E9;
   --bs-btn-hover-border-color: #9EDF9C;
+  --bs-btn-focus-shadow-rgb: 25, 135, 84;
+  --bs-btn-active-color: #9EDF9C;
+  --bs-btn-active-bg: #FBF6E9;
+  --bs-btn-active-border-color: #FBF6E9;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #FBF6E9;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #FBF6E9;
+  --bs-gradient: none;  
+}
+
+.btn-outline-avocado {
+  background-color: #FBF6E9;
+  --bs-btn-color: #9EDF9C;
+  --bs-btn-border-color: #9EDF9C;
+  --bs-btn-hover-color: #FBF6E9;
+  --bs-btn-hover-bg: rgb(61, 157, 102);
+  --bs-btn-hover-border-color: #198754;
   --bs-btn-focus-shadow-rgb: 25, 135, 84;
   --bs-btn-active-color: #9EDF9C;
   --bs-btn-active-bg: #FBF6E9;
@@ -12401,4 +12444,67 @@ body, .bg-body{
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* Product Cards */
+.card-login {
+  border: 1px solid #E3F0AF;
+  border-radius: 10px;
+  background-color: #FDF7F4;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-login:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.text-avocado {
+  --bs-text-opacity: 1;
+  color: #5DB996 !important;
+}
+
+.text-avocado-back {
+  --bs-text-opacity: 1;
+  color: #118B50 !important;
+  transition: color 0.3s ease, transform 0.3s ease; /* Smooth color and scaling transition */
+}
+
+.text-avocado-back:hover {
+  color: #71D19A !important; /* Light green shade on hover */
+  transform: scale(1.1); /* Slightly enlarge the text on hover */
+}
+
+/* Login Input Focus */
+.cred-input {
+  border: 1px solid #E3F0AF;
+  border-radius: 15px;
+  padding: 0.5rem 1rem;
+  background-color: white; /* Default background */
+  color: #333; /* Default text color */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.cred-input:focus {
+  border-color: #E3F0AF;
+  box-shadow: 0 0 0 0.2rem #E3F0AF; /* Subtle glow effect */
+}
+
+.cred-input:-webkit-autofill {
+  background-color: #f3ffe5 !important; /* Light green for autofill */
+  color: #333 !important;
+}
+
+.cred-input:-webkit-autofill:not(:focus) {
+  background-color: #e3fbd0 !important; /* Slightly darker green when focused */
+  box-shadow: 0 0 0px 1000px #e3fbd0 inset /* Combined glow effect */
+}
+
+.cred-input:-webkit-autofill:focus {
+  background-color: #e3fbd0 !important; /* Slightly darker green when focused */
+  box-shadow: 0 0 0px 1000px #e3fbd0 inset, 0 0 0 0.2rem #E3F0AF; /* Combined glow effect */
+}
+
+.h1-lg{
+  font-size: 5rem; /* Adjust as needed */
+  font-weight: bold; /* Optional */
 }
