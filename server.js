@@ -6,7 +6,7 @@ const User = require('./public/assets/models/User');
 const app = express();
 
 // Connect to The DataBase
-mongoose.connect('mongodb://localhost/HealthAssistant', {});
+mongoose.connect('mongodb://127.0.0.1:27017/HealthAssistant', {});
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
