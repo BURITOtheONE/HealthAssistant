@@ -12508,3 +12508,49 @@ body, .bg-body{
   font-size: 5rem; /* Adjust as needed */
   font-weight: bold; /* Optional */
 }
+
+/* Modal Overlay */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Transparent dark background */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+/* Modal Content */
+.modal-content {
+    background: rgba(255, 255, 255, 0.80); /* White with transparency */
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Close Button */
+.close-btn {
+    background-color: red;         /* Red background color */
+    color: white;                  /* White text color */
+    font-size: 20px;               /* Font size */
+    padding: 10px;                 /* Padding around the text */
+    border: none;                  /* Remove default border */
+    border-radius: 50%;            /* Round button */
+    cursor: pointer;              /* Change cursor to pointer on hover */
+    position: absolute;            /* Position it absolutely inside its parent */
+    top: 10px;                     /* Position it 10px from the top */
+    right: 10px;                   /* Position it 10px from the right */
+    z-index: 10;                   /* Ensure the button is above other content */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.close-btn:hover {
+    background-color: darkred;     /* Darker red color on hover */
+}

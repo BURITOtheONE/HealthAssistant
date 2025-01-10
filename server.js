@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const User = require('./public/assets/models/User');
+const Recipe = require('./public/assets/models/Recipe');
 const app = express();
 
 // Connect to The DataBase
@@ -44,7 +45,10 @@ function checkAuth(req, res, next) {
 app.get('/', async (req, res) => { res.render('index', {}); });
 
 // Routes for other pages
-app.get('/fridge', (req, res) => res.render('fridge'));
+app.get('/fridge', async (req, res) => {
+  
+  res.render('fridge')
+});
 app.get('/recipe', (req, res) => res.render('recipe'));
 
 // Still in progress

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Bootstrap JavaScript library for interactive elements -->
     <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/script.js"></script>
 
 </head>
 <body class="bg-body">
@@ -78,7 +79,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <button type="button" class="btn btn-avocado btn-lg" style="margin: 2rem; height: 20rem; width: 15rem;">
+                <button type="button" class="btn btn-avocado btn-lg addIngredient" style="margin: 2rem; height: 20rem; width: 15rem;">
                     +
                     <br>
                     
@@ -108,6 +109,15 @@
         </div>
       </div>
 
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div id="modal-content-body">
+                <!-- Dynamic content will be injected here -->
+            </div>
+            <div class="close-btn"></div>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <div class="container mt-5">
@@ -116,5 +126,4 @@
         <p>&copy; 2025 Health Assistant. All rights reserved.</p>
     </footer>
 </body>
-
 </html>
