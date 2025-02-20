@@ -20,7 +20,7 @@ const ingredientSchema = new mongoose.Schema({
     unit: {
         type: String,
         required: true,  // Unit of measurement is mandatory
-        enum: ['grams', 'kilograms', 'milliliters', 'liters', 'pieces', 'cups'], // Allowed units
+        enum: ['grams', 'kilograms', 'kg', 'ml', 'milliliters', 'liters', 'pieces'], // Allowed units
         default: 'grams'  // Default unit is 'grams'
     },
     category: {

@@ -10,7 +10,6 @@
     <!-- Bootstrap JavaScript library for interactive elements -->
     <script src="js/bootstrap.bundle.js"></script>
     <script src="js/script.js"></script>
-
 </head>
 <body class="bg-body">
     <!-- Navbar -->
@@ -82,12 +81,24 @@
                 <button type="button" class="btn btn-avocado btn-lg addIngredient" style="margin: 2rem; height: 20rem; width: 15rem;">
                     +
                     <br>
-                    
-                    Add a new recipe
+                    Add an Ingredient
                 </button>
             </div>
-            <div class="col-sm">
-
+            <div class="col-sm card my-4">
+                <!-- Display Ingredients -->
+                <h2 class="text-center text-avocado mb-4">Your Ingredients</h2>
+                <div class="row">
+                    <% ingredients.forEach((ingredient, index) => { %>
+                        <div class="col-md-4">
+                            <div class="card-login mb-4">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title"><%= ingredient.name %></h5>
+                                    <p class="card-text"><%= ingredient.quantity %> <%= ingredient.unit %> (<%= ingredient.category %>)</p>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
             </div>
             <div class="col-sm">
             </div>

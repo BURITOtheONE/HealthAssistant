@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const User = require('./public/assets/models/User');
 const Recipe = require('./public/assets/models/Recipe');
+const Ingredient = require('./public/assets/models/Ingredient');
 const app = express();
 
 // Connect to The DataBase
@@ -46,8 +47,19 @@ app.get('/', async (req, res) => { res.render('index', {}); });
 
 // Routes for other pages
 app.get('/fridge', async (req, res) => {
-  
-  res.render('fridge')
+  const userId = req.session.userId; // Get the logged-in user's ID
+  try {
+    if (!userId) {
+      return res.redirect('/login');  // Ensure the user is logged in
+    }
+
+    const ingredients = await Ingredient.find({ creator: userId });
+
+    res.render('fridge', { ingredients });
+  } catch (error) {
+    console.error(error);
+    res.redirect('/');  // If an error occurs, redirect to home page
+  }
 });
 app.get('/recipe', (req, res) => res.render('recipe'));
 
@@ -123,6 +135,32 @@ app.post('/register', async (req, res) => {
       }, 500);
     });
   });
-  
+
+// POST route to add a new ingredient
+app.post('/add-ingredient', async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.redirect('/login');  // Ensure the user is logged in
+    }
+
+    const newIngredient = new Ingredient({
+      name: req.body.ingredientName,
+      quantity: req.body.quantity,
+      unit: req.body.quantityUnit,
+      category: req.body.category,
+      creator: req.session.userId,
+      addedDate: Date.now()
+    });
+
+    await newIngredient.save();
+    console.log('New ingredient added successfully:', newIngredient);
+
+    res.redirect('/fridge');  // Redirect to fridge page after adding ingredient
+  } catch (error) {
+    console.error(error);
+    res.redirect('/fridge');  // If an error occurs, redirect back to fridge page
+  }
+});
+
     // Start server at localhost:1505
     app.listen(process.env.PORT || 1505, () => console.log('Server running...'));

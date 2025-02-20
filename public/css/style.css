@@ -8020,6 +8020,31 @@ textarea.form-control-lg {
   }
 }
 
+.my-register-form {
+  margin-top: 4rem !important;
+  margin-bottom: 4rem !important;
+
+  @media (min-width: 576px) { /* Small devices (landscape phones, 576px and up) */
+    margin-top: 4.8rem !important;
+    margin-bottom: 4.8rem !important;
+  }
+
+  @media (min-width: 768px) { /* Medium devices (tablets, 768px and up) */
+    margin-top: 4rem !important;
+    margin-bottom: 4rem !important;
+  }
+
+  @media (min-width: 992px) { /* Large devices (desktops, 992px and up) */
+    margin-top: 4rem !important;
+    margin-bottom: 4rem !important;
+  }
+
+  @media (min-width: 1200px) { /* Extra large devices (large desktops, 1200px and up) */
+    margin-top: 6.4rem !important;
+    margin-bottom: 6.4rem !important;
+  }
+}
+
 .my-auto {
   margin-top: auto !important;
   margin-bottom: auto !important;

@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="css/style.css">
   <!-- Bootstrap JavaScript library for interactive elements -->
   <script src="js/bootstrap.bundle.js"></script>  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
   <title>Document</title>
 </head>
 <body>
@@ -18,20 +20,20 @@
 </nav>
 
 <!-- Login Form -->
-<div class="container my-super">
+<div id="loginForm" class="container my-super">
   <div class="row align-items-center justify-content-center">
     <!-- Welcome Section -->
     <div class="col-lg-6 mb-4 mb-lg-0 text-center">
       <h1 class="text-avocado my-4 h1-lg">HealthAssistant</h1>
       <p class="lead text-muted">Don't have an account yet?</p>
-      <a href="/register" class="btn btn-outline-avocado btn-lg mt-3">Create One</a>
+      <a href="javascript:void(0)" id="switchToRegister" class="btn btn-outline-avocado btn-lg mt-3">Create One</a>
     </div>
 
     <!-- Login Form Section -->
     <div class="col-lg-6">
       <div class="card-login shadow-lg p-4">
         <h2 class="text-center text-avocado mb-4">Login</h2>
-        <form action="/login" method="POST">
+        <form action="/login" id="loginFormContent" method="POST">
           <!-- Username Input -->
           <div class="form-group mb-3">
             <label for="username" class="form-label text-avocado">Username</label>
@@ -51,9 +53,77 @@
     </div>
   </div>
 </div>
+
+  <!-- End of Login Form -->
+
+  <!-- Register Form -->
+<div id="registerForm" class="container my-register-form" style="display: none">
+  <div class="row align-items-center justify-content-center">
+    <!-- Welcome Section -->
+    <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+        <h1 class="text-avocado my-4 h1-lg">HealthAssistant</h1>
+        <p class="lead text-muted">Already have an account?</p>
+        <a href="javascript:void(0)" id="switchToLogin" class="btn btn-outline-avocado btn-lg mt-3">Login Now</a>
+      </div>
+
+    <!-- Register Form Section -->
+    <div class="col-lg-6">
+      <div class="card-login shadow-lg p-4">
+        <h2 class="text-center text-avocado mb-4">Register</h2>
+        <form action="/register" id="registerFormContent" method="POST">
+          <!-- Username Input -->
+          <div class="form-group mb-3">
+            <label for="Username" class="form-label text-avocado">Username</label>
+            <input required placeholder="Username" type="text" name="username" id="Username" class="form-control cred-input">
+          </div>
+        <!-- Username Input -->
+        <div class="form-group mb-3">
+            <label for="Email" class="form-label text-avocado">Email</label>
+            <input required placeholder="Email" type="email" name="email" id="Email" class="form-control cred-input">
+        </div>
+          <!-- Password Input -->
+          <div class="form-group mb-4">
+            <label for="Password" class="form-label text-avocado">Password</label>
+            <input required placeholder="Password" type="password" name="password" id="Password" class="form-control cred-input">
+          </div>
+          <!-- Submit Button -->
+          <div class="text-center">
+            <button class="btn btn-avocado btn-lg w-100" type="submit">Register</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+</div>
 
 
-      <!-- End of Login Form -->
+      <!-- End of Register Form -->
+
+      <script>
+        // Switch to Register Form
+        $("#switchToRegister").click(function () {
+            $("#loginForm").hide();
+            $("#registerForm").fadeIn();
+            $("#registerFormContent")[0].reset(); // Reset Login form
+        });
+  
+        // Switch to Login Form
+        $("#switchToLogin").click(function () {
+            $("#registerForm").hide();
+            $("#loginForm").fadeIn();
+            $("#loginFormContent")[0].reset(); // Reset Register form
+        });
+  
+        // Toggle between Login and Register forms via the navbar link
+        $("#toggleFormBtn").click(function () {
+            if ($("#registerForm").is(":visible")) {
+                $("#registerForm").hide();
+                $("#loginForm").fadeIn();
+            } else {
+                $("#loginForm").hide();
+                $("#registerForm").fadeIn();
+            }
+        });
+    </script>  
 </body>
 </html>
