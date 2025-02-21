@@ -12393,7 +12393,7 @@ body, .bg-body{
   display: block;
   opacity: 1;
   transform: translateY(0);
-  left: -0.8rem;
+  left: -1.55rem;
 }
 
 .nav-item.dropdown:hover .profile-dropdown-menu {
@@ -12531,7 +12531,7 @@ body, .bg-body{
 
 .h1-lg{
   font-size: 5rem; /* Adjust as needed */
-  font-weight: bold; /*   al */
+  font-weight: bold; /* Optional */
 }
 
 /* Modal Overlay */

@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Bootstrap JavaScript library for interactive elements -->
     <script src="js/bootstrap.bundle.js"></script>
+    <!-- Lucide icons for consistent iconography -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 
@@ -31,29 +33,47 @@
                 </div>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
-                        <% if (session.userId) { %>
-                        <!-- Profile dropdown menu in the top-right corner -->
-                        <button class="btn btn-profile" style="scale: 1.18;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="assets/img/pfp.png" alt="Profile">
-                        </button>
-                        <ul class="dropdown-menu profile-dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="/fridge">Your Fridge</a></li>
-                            <li><hr class="divider"></li>
-                            <form id="logout-form" action="/logout" method="POST">
-                                <li><button class="dropdown-item" type="submit">Logout</button></li>
-                            </form>
-                        </ul>
-                        <% } else { %>
-                            <button class="btn btn-profile" style="scale: 1.18;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="assets/img/pfp.png" alt="Profile">
-                            </button>
-                            <ul class="dropdown-menu profile-dropdown-menu">
-                                <li><a class="dropdown-item" href="/login">Login</a></li>
-                                <li><a class="dropdown-item" href="/register">Register</a></li>
-                            </ul>    
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i data-lucide="session" class="me-1"></i>
+                            <% if (typeof session !== 'undefined' && session.username) { %>
+                                <%= session.username %>
+                            <% } else { %>
+                                Account
                             <% } %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <% if (typeof session !== 'undefined' && session.username) { %>
+                                <li>
+                                    <a class="dropdown-item" href="/profile">
+                                        <i data-lucide="session" class="me-2"></i>Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/preferences">
+                                        <i data-lucide="settings" class="me-2"></i>Preferences
+                                    </a>
+                                </li>
+                                <li><hr class="divider"></li>
+                                <li>
+                                    <form id="logout-form" action="/logout" method="POST">
+                                        <button class="dropdown-item" type="submit">
+                                            <i data-lucide="log-out" class="me-2" ></i>Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            <% } else { %>
+                                <li>
+                                    <a class="dropdown-item" href="/login">
+                                        <i data-lucide="log-in" class="me-2"></i>Login
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/register">
+                                        <i data-lucide="session-plus" class="me-2"></i>Register
+                                    </a>
+                                </li>
+                            <% } %>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -63,105 +83,115 @@
     <!-- Mini Navbar -->
     <nav class="navbar mini-navbar navbar-expand-lg nav-light-green shadow-sm">
         <div class="container-fluid">
-            <ul class="navbar-nav">
-                <li class="nav-item mx-auto px-3">
-                    <a class="nav-link link-light" href="/fridge">Health Fridge</a>
-                </li>
-                <li class="nav-item mx-auto px-3">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item dropdown">
-                            <!-- Profile dropdown menu in the top-right corner -->
-                            <a class="nav-link link-light" href="#recipes">Recipes \/</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">My Recipes</a></li>
-                                <li><a class="dropdown-item" href="#">Scheduled Menu</a></li>
-                                <li><hr class="divider"></li>
-                                <li><a class="dropdown-item" href="#">Reccomended Recipes</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item mx-auto px-3">
-                    <a class="nav-link link-light" href="#">Nutrition Goals</a>
-                </li>
-            </ul>
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link text-white ms-auto mx-3" href="/dashboard">
+                            <i data-lucide="layout-dashboard" class="me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white ms-auto mx-3" href="/recipes">
+                            <i data-lucide="book-open" class="me-1"></i>
+                            Recipes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white ms-auto mx-3" href="/fridge">
+                            <i data-lucide="calendar" class="me-1"></i>
+                            Health Fridge
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white ms-auto mx-3" href="/meal-planner">
+                            <i data-lucide="calendar" class="me-1"></i>
+                            Meal Planner
+                        </a>
+                    </li>
+                </ul>            
+            </div>
         </div>
     </nav>
 
     <!-- Main Content -->
     <div class="container mt-5">
         <div class="row">
-          <div class="col-sm">
-            <div class="card" style="margin: 2rem">
-                <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
-                </div>
-              </div>
-          </div>
-          <div class="col-sm">
-            <div class="card" style="margin: 2rem">
-                <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
-                </div>
-              </div>
-          </div>
-          <div class="col-sm">
-            <div class="card" style="margin: 2rem">
-                <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
-                </div>
-              </div>
-          </div>
-        </div>
-        <div class="row">
             <div class="col-sm">
-            <div class="card" style="margin: 2rem">
-                <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm">
-              <div class="card" style="margin: 2rem">
-                  <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
-                  </div>
+                <div class="card" style="margin: 2rem">
+                    <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
+                    </div>
                 </div>
             </div>
             <div class="col-sm">
                 <div class="card" style="margin: 2rem">
                     <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
                     <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
                     </div>
-                  </div>
+                </div>
             </div>
-          </div>
-      </div>
-
+            <div class="col-sm">
+                <div class="card" style="margin: 2rem">
+                    <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card" style="margin: 2rem">
+                    <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card" style="margin: 2rem">
+                    <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card" style="margin: 2rem">
+                    <img class="card-img-top p-3 rounded-5" src="assets/img/pfp.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="/recipe" class="btn btn-avocado-out">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="text-center mt-5">
         <p>&copy; 2025 Health Assistant. All rights reserved.</p>
     </footer>
 
-</body>
+    <!-- Initialize Lucide icons -->
+    <script>
+        lucide.createIcons();
+    </script>
 
+</body>
 </html>
