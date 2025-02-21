@@ -6317,9 +6317,7 @@
    * --------------------------------------------------------------------------
    */
 
-  function addRecipe(){
     
-  }  
 
 }));
 //# sourceMappingURL=bootstrap.bundle.js.map

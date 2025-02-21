@@ -6,6 +6,7 @@ const User = require('./public/assets/models/User');
 const Recipe = require('./public/assets/models/Recipe');
 const Ingredient = require('./public/assets/models/Ingredient');
 const app = express();
+const axios = require('axios');
 
 // Connect to The DataBase
 mongoose.connect('mongodb://127.0.0.1:27017/HealthAssistant', {});
@@ -13,6 +14,34 @@ mongoose.connect('mongodb://127.0.0.1:27017/HealthAssistant', {});
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
+
+async function getMeal() {
+  try {
+      const response = await fetch('/api/random-meal');
+      const data = await response.json();
+      
+      console.log("Received data:", data); // Debugging line
+
+      if (!data.meals) {
+          console.error("No meals received!");
+          document.getElementById('meal-container').innerHTML = '<p>No meal found. Try again!</p>';
+          return;
+      }
+
+      const meal = data.meals[0];
+
+      document.getElementById('meal-container').innerHTML = `
+          <h2>${meal.strMeal}</h2>
+          <img src="${meal.strMealThumb}" width="300">
+          <p><strong>Category:</strong> ${meal.strCategory}</p>
+          <p><strong>Instructions:</strong> ${meal.strInstructions}</p>
+      `;
+
+  } catch (error) {
+      console.error("Error fetching meal:", error);
+      document.getElementById('meal-container').innerHTML = '<p>Error loading meal. Check console for details.</p>';
+  }
+}
 
 // Set up express-session middleware
 app.use(
