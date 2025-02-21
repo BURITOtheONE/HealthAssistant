@@ -12579,3 +12579,20 @@ body, .bg-body{
 .close-btn:hover {
     background-color: darkred;     /* Darker red color on hover */
 }
+
+.nav-link {
+    color: rgb(255, 255, 255);
+}
+
+.nav-link:hover {
+    color: #ffffff;
+}
+
+/* Custom styles for active tab links */
+.nav-link.active {
+  background-color: #9EDF9C !important; /* Change this to your desired background color */
+  color: #198754 !important; /* Ensure the text color is black */
+  border-color: #6c757d; /* Change this to match the background color */
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
