@@ -1,0 +1,82 @@
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg nav-green">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand text-white" href="/">
+            <i data-lucide="heart" class="me-2"></i>
+            Health Assistant
+        </a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Items -->
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/dashboard">
+                        <i data-lucide="layout-dashboard" class="me-1"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/recipes">
+                        <i data-lucide="book-open" class="me-1"></i>
+                        Recipes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/meal-planner">
+                        <i data-lucide="calendar" class="me-1"></i>
+                        Meal Planner
+                    </a>
+                </li>
+            </ul>
+
+            <!-- session Menu -->
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i data-lucide="session" class="me-1"></i>
+                    <% if (typeof session !== 'undefined' && session.username) { %>
+                        <%= session.username %>
+                    <% } else { %>
+                        Account
+                    <% } %>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <% if (typeof session !== 'undefined' && session.username) { %>
+                        <li>
+                            <a class="dropdown-item" href="/profile">
+                                <i data-lucide="session" class="me-2"></i>Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/preferences">
+                                <i data-lucide="settings" class="me-2"></i>Preferences
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" href="/logout">
+                                <i data-lucide="log-out" class="me-2"></i>Logout
+                            </a>
+                        </li>
+                    <% } else { %>
+                        <li>
+                            <a class="dropdown-item" href="/login">
+                                <i data-lucide="log-in" class="me-2"></i>Login
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/register">
+                                <i data-lucide="session-plus" class="me-2"></i>Register
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

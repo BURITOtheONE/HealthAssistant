@@ -12531,7 +12531,7 @@ body, .bg-body{
 
 .h1-lg{
   font-size: 5rem; /* Adjust as needed */
-  font-weight: bold; /* Optional */
+  font-weight: bold; /*   al */
 }
 
 /* Modal Overlay */
@@ -12551,7 +12551,7 @@ body, .bg-body{
 
 /* Modal Content */
 .modal-content {
-    background: rgba(255, 255, 255, 0.80); /* White with transparency */
+    background: rgba(255, 255, 255, 0.90); /* White with transparency */
     padding: 20px;
     border-radius: 8px;
     max-width: 500px;

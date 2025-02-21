@@ -64,6 +64,7 @@ app.get('/fridge', async (req, res) => {
 app.get('/recipe', (req, res) => res.render('recipe'));
 
 // Still in progress
+app.get('/profile', (req, res) => res.render('profile'));
 app.get('/myRecipes', (req, res) => res.render('myRecipes'));
 app.get('/login', (req, res) =>{
   if(!req.session.userId){
