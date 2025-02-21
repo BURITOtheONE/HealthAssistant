@@ -1,0 +1,99 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg nav-green">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="/">Health Assistant</a>
+        <!-- Navbar toggle button for responsive view -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="ms-auto w-50">
+                <!-- Centered Search bar for recipes -->
+                <form class="d-flex">
+                    <input class="form-control search-bar user-select-none" type="search" placeholder="Search healthy recipes..." aria-label="Search">
+                    <button class="btn btn-avocado ms-2" type="submit">Search</button>
+                </form>
+            </div>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i data-lucide="session" class="me-1"></i>
+                        <% if (typeof session !== 'undefined' && session.username) { %>
+                            <%= session.username %>
+                        <% } else { %>
+                            Account
+                        <% } %>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <% if (typeof session !== 'undefined' && session.username) { %>
+                            <li>
+                                <a class="dropdown-item" href="/profile">
+                                    <i data-lucide="session" class="me-2"></i>Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/preferences">
+                                    <i data-lucide="settings" class="me-2"></i>Preferences
+                                </a>
+                            </li>
+                            <li><hr class="divider"></li>
+                            <li>
+                                <form id="logout-form" action="/logout" method="POST">
+                                    <button class="dropdown-item" type="submit">
+                                        <i data-lucide="log-out" class="me-2" ></i>Logout
+                                    </button>
+                                </form>
+                            </li>
+                        <% } else { %>
+                            <li>
+                                <a class="dropdown-item" href="/login">
+                                    <i data-lucide="log-in" class="me-2"></i>Login
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/register">
+                                    <i data-lucide="session-plus" class="me-2"></i>Register
+                                </a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Mini Navbar -->
+<nav class="navbar mini-navbar navbar-expand-lg nav-light-green shadow-sm">
+    <div class="container-fluid">
+        <!-- Navigation Items -->
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-white ms-auto mx-3" href="/dashboard">
+                        <i data-lucide="layout-dashboard" class="me-1"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white ms-auto mx-3" href="/recipe">
+                        <i data-lucide="book-open" class="me-1"></i>
+                        Recipes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white ms-auto mx-3" href="/fridge">
+                        <i data-lucide="refrigerator" class="me-1"></i>
+                        Health Fridge
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white ms-auto mx-3" href="/meal-planner">
+                        <i data-lucide="calendar" class="me-1"></i>
+                        Meal Planner
+                    </a>
+                </li>
+            </ul>            
+        </div>
+    </div>
+</nav>
