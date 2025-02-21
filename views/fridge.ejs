@@ -10,70 +10,15 @@
     <!-- Bootstrap JavaScript library for interactive elements -->
     <script src="js/bootstrap.bundle.js"></script>
     <script src="js/script.js"></script>
+    <!-- Lucide icons for consistent iconography -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+
 </head>
 <body class="bg-body">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg nav-green">
-        <div class="container-fluid">
-            <a class="navbar-brand text-light" href="/">Health Assistant</a>
-            <!-- Navbar toggle button for responsive view -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="ms-auto w-50">
-                    <!-- Centered Search bar for recipes -->
-                    <form class="d-flex">
-                        <input class="form-control search-bar user-select-none" type="search" placeholder="Search healthy recipes..." aria-label="Search">
-                        <button class="btn btn-avocado ms-2" type="submit">Search</button>
-                    </form>
-                </div>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <!-- Profile dropdown menu in the top-right corner -->
-                        <button class="btn btn-profile" style="scale: 1.18;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="assets/img/pfp.png" alt="Profile">
-                        </button>
-                        <ul class="dropdown-menu profile-dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="/fridge">Your Fridge</a></li>
-                            <li><hr class="divider"></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    
-    <!-- Mini Navbar -->
-    <nav class="navbar mini-navbar navbar-expand-lg nav-light-green shadow-sm">
-        <div class="container-fluid">
-            <ul class="navbar-nav">
-                <li class="nav-item mx-auto px-3">
-                    <a class="nav-link link-light" href="/fridge">Health Fridge</a>
-                </li>
-                <li class="nav-item mx-auto px-3">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item dropdown">
-                            <!-- Profile dropdown menu in the top-right corner -->
-                            <a class="nav-link link-light" href="#recipes">Recipes \/</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">My Recipes</a></li>
-                                <li><a class="dropdown-item" href="#">Scheduled Menu</a></li>
-                                <li><hr class="divider"></li>
-                                <li><a class="dropdown-item" href="#">Reccomended Recipes</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item mx-auto px-3">
-                    <a class="nav-link link-light" href="#">Nutrition Goals</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+
+        <!-- Include the existing navbar -->
+        <%- include('partials/navbar') %>
 
     <div class="container">
         <div class="row">
@@ -136,5 +81,11 @@
     <footer class="text-center mt-5">
         <p>&copy; 2025 Health Assistant. All rights reserved.</p>
     </footer>
+
+    <!-- Initialize Lucide icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+
 </body>
 </html>
