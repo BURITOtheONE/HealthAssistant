@@ -8,7 +8,7 @@ const Ingredient = require('./public/assets/models/Ingredient');
 const app = express();
 
 // Connect to The DataBase
-mongoose.connect('mongodb://127.0.0.1:27017/HealthAssistant', {});
+mongoose.connect('mongodb+srv://burito:m%40rtinell2@healthassistant.gb7oc.mongodb.net/', {});
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
