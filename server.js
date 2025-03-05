@@ -6,23 +6,24 @@ const User = require('./public/assets/models/User');
 const Recipe = require('./public/assets/models/Recipe');
 const Ingredient = require('./public/assets/models/Ingredient');
 const app = express();
+require('dotenv').config(); 
 
 // Connect to The DataBase
-mongoose.connect('mongodb+srv://burito:m%40rtinell2@healthassistant.gb7oc.mongodb.net/', {});
-
-app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static('public'));
-
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch(err => console.error('Could not connect to MongoDB Atlas', err));
 // Set up express-session middleware
 app.use(
   session({
-    secret: 'superSecretKey',  // Replace with actual secret key in the future
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Ensures cookies are secure in production
-      maxAge: 1000 * 60 * 60 * 24 // Cookie expires after 1 day
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24
     }
   })
 );
