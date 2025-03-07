@@ -18,12 +18,12 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Set up express-session middleware
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: 'superSecretKey',  // Replace with actual secret key in the future
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 1000 * 60 * 60 * 24
+      secure: process.env.NODE_ENV === 'production', // Ensures cookies are secure in production
+      maxAge: 1000 * 60 * 60 * 24 // Cookie expires after 1 day
     }
   })
 );
