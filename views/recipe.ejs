@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Assistant</title>
+    <title>Recipe - Health Assistant</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <!-- Bootstrap JavaScript library for interactive elements -->
     <script src="js/bootstrap.bundle.js"></script>
-
+    <!-- Lucide icons for consistent iconography -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body class="bg-body">
@@ -17,46 +18,127 @@
     <!-- Include the existing navbar -->
     <%- include('partials/navbar') %>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm">
-            </div>
-            <div class="col-sm">
-                <h1>
-                    Recipe name here
-                </h1>
-            </div>
-            <div class="col-sm">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-            </div>
-            <div class="col-sm">
-                <img class="img" src=".../100px180/" alt="Recipe image here">
-                </img>
-            </div>
-            <div class="col-sm">
-            </div>
-        </div>
-        <div class="row"><div class="col-sm">
-            </div>
-            <div class="col-sm">
-                <h4>
-                    Recipe content here
-                </h4>
-            </div>
-            <div class="col-sm">
-            </div>
-        </div>
-      </div>
-
-
-    <!-- Main Content -->
     <div class="container mt-5">
-    <!-- Include the existing navbar -->
+        <!-- Recipe Header -->
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>Recipe Name Here</h1>
+                <p class="text-muted">A brief description of the recipe goes here.</p>
+            </div>
+        </div>
+
+        <!-- Recipe Image -->
+        <div class="row mt-4">
+            <div class="col-sm-12 text-center">
+                <img class="img-fluid rounded" src="path/to/recipe-image.jpg" alt="Recipe image here">
+            </div>
+        </div>
+
+        <!-- Recipe Details -->
+        <div class="row mt-4">
+            <div class="col-sm-4">
+                <h4>Preparation Time</h4>
+                <p>30 minutes</p>
+            </div>
+            <div class="col-sm-4">
+                <h4>Cooking Time</h4>
+                <p>45 minutes</p>
+            </div>
+            <div class="col-sm-4">
+                <h4>Servings</h4>
+                <p>4 servings</p>
+            </div>
+        </div>
+
+        <!-- Ingredients -->
+        <div class="row mt-4">
+            <div class="col-sm-12">
+                <h4>Ingredients</h4>
+                <ul>
+                    <li>Ingredient 1</li>
+                    <li>Ingredient 2</li>
+                    <li>Ingredient 3</li>
+                    <!-- Add more ingredients as needed -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="row mt-4">
+            <div class="col-sm-12">
+                <h4>Instructions</h4>
+                <ol>
+                    <li>Step 1: Describe the first step in detail.</li>
+                    <li>Step 2: Describe the second step in detail.</li>
+                    <li>Step 3: Describe the third step in detail.</li>
+                    <!-- Add more steps as needed -->
+                </ol>
+            </div>
+        </div>
+
+        <!-- Nutrition Facts -->
+        <div class="row mt-4">
+            <div class="col-sm-12">
+                <h4>Nutrition Facts</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nutrient</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Calories</td>
+                            <td>200 kcal</td>
+                        </tr>
+                        <tr>
+                            <td>Protein</td>
+                            <td>10 g</td>
+                        </tr>
+                        <tr>
+                            <td>Carbohydrates</td>
+                            <td>30 g</td>
+                        </tr>
+                        <tr>
+                            <td>Fat</td>
+                            <td>5 g</td>
+                        </tr>
+                        <!-- Add more nutrients as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="row mt-4">
+            <div class="col-sm-12">
+                <h4>Comments</h4>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Leave a comment:</label>
+                    <textarea class="form-control" id="comment" rows="3"></textarea>
+                    <button class="btn btn-avocado mt-2">Submit</button>
+                </div>
+                <div class="comments-list">
+                    <div class="comment">
+                        <p><strong>User 1:</strong> This recipe is amazing!</p>
+                    </div>
+                    <div class="comment">
+                        <p><strong>User 2:</strong> I tried this recipe and it turned out great.</p>
+                    </div>
+                    <!-- Add more comments as needed -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the existing footer -->
     <%- include('partials/footer') %>
 
-</body>
+    <!-- Initialize Lucide icons -->
+    <script>
+        lucide.createIcons();
+    </script>
 
+</body>
 </html>

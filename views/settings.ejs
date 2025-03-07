@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Assistant - Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Bootstrap JavaScript library -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <!-- Lucide icons for consistent iconography -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-body">
+    <!-- Include the existing navbar -->
+    <%- include('partials/navbar') %>
+
+    <div class="container mt-5 mb-5">
+        <!-- Settings Header Section -->
+        <div class="card nav-light-green shadow-sm mb-4">
+            <div class="card-body d-flex align-items-center gap-4 p-4">
+                <div class="rounded-circle nav-green d-flex align-items-center justify-content-center" style="width: 96px; height: 96px;">
+                    <% if (session.profileImage) { %>
+                        <img src="<%= session.profileImage %>" alt="Profile" class="rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+                    <% } else { %>
+                        <i data-lucide="settings" class="text-white" style="width: 48px; height: 48px;"></i>
+                    <% } %>
+                </div>
+                <div>
+                    <h1 class="h3 mb-1"><%= session.username %></h1>
+                    <p class="text-muted mb-0"><%= session.email %></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tabs Navigation -->
+        <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active btn-avocado-out" data-bs-toggle="tab" data-bs-target="#account-settings">
+                    <i data-lucide="settings" class="me-2"></i><p class="text-lit">Account Settings</p>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link btn-avocado-out" data-bs-toggle="tab" data-bs-target="#appearance">
+                    <i data-lucide="brush" class="me-2"></i><p class="text-lit">Appearance</p>
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Account Settings Tab -->
+            <div class="tab-pane fade show active" id="account-settings">
+                <div class="card shadow-sm">
+                    <div class="card-header nav-light-green">
+                        <h5 class="card-title text-light mb-0">Account Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="account-settings-form" action="/settings/account" method="POST">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted">Username</label>
+                                    <input type="text" class="form-control" name="username" value="<%= session.username %>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted">Email</label>
+                                    <input type="email" class="form-control" name="email" value="<%= session.email %>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted">New Password</label>
+                                    <input type="password" class="form-control" name="password">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-avocado">
+                                        <i data-lucide="save" class="me-2"></i>Save Changes
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appearance Tab -->
+            <div class="tab-pane fade" id="appearance">
+                <div class="card shadow-sm">
+                    <div class="card-header nav-light-green">
+                        <h5 class="card-title text-light mb-0">Appearance</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="appearance-form" action="/settings/appearance" method="POST">
+                            <div class="mb-4">
+                                <h6>Theme</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="theme" id="light-theme" value="light" <%= session.theme === 'light' ? 'checked' : '' %>>
+                                    <label class="form-check-label" for="light-theme">
+                                        Light
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="theme" id="dark-theme" value="dark" <%= session.theme === 'dark' ? 'checked' : '' %>>
+                                    <label class="form-check-label" for="dark-theme">
+                                        Dark
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-avocado">
+                                <i data-lucide="save" class="me-2"></i>Save Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include your existing footer -->
+    <%- include('partials/footer') %>
+
+    <!-- Initialize Lucide icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

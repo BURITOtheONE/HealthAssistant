@@ -5,6 +5,8 @@ const session = require('express-session');
 const User = require('./public/assets/models/User');
 const Recipe = require('./public/assets/models/Recipe');
 const Ingredient = require('./public/assets/models/Ingredient');
+const MealPlan = require('./public/assets/models/MealPlan'); // Add this line
+const mealPlannerRoutes = require('./public/assets/routes/mealPlanner'); // Add this line
 const app = express();
 
 // Connect to The DataBase
@@ -12,6 +14,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/HealthAssistant', {});
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json()); // Add this line to parse JSON bodies
 app.use(express.static('public'));
 
 // Set up express-session middleware
@@ -40,7 +43,6 @@ function checkAuth(req, res, next) {
     res.redirect('/login');
   }
 }
-
 
 // Home page route
 app.get('/', async (req, res) => { res.render('index', {}); });
@@ -75,6 +77,7 @@ app.get('/login', (req, res) =>{
   }
 });
 app.get('/register', (req, res) => res.render('register'));
+app.get('/meal-planner', checkAuth, (req, res) => res.render('meal-planner')); // Add checkAuth middleware
 
 // POST route to register a new User
 app.post('/register', async (req, res) => {
@@ -163,5 +166,8 @@ app.post('/add-ingredient', async (req, res) => {
   }
 });
 
-    // Start server at localhost:1505
-    app.listen(process.env.PORT || 1505, () => console.log('Server running...'));
+// Use meal planner routes
+app.use('/meal-planner', mealPlannerRoutes);
+
+// Start server at localhost:1505
+app.listen(process.env.PORT || 1505, () => console.log('Server running...'));
