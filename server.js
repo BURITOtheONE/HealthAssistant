@@ -9,7 +9,7 @@ const app = express();
 require('dotenv').config(); 
 
 // Connect to The DataBase
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect('mongodb+srv://burito:m%40rtinell2@healthassistant.gb7oc.mongodb.net/', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
