@@ -25,6 +25,13 @@ app.use(
   })
 );
 
+// Set up EJS as the view engine
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json()); // Add this line to parse JSON bodies
+app.use(express.static('public'));
+
+
 app.use((req, res, next) => {
   res.locals.session = req.session;  // Make session available in all views
   next();
