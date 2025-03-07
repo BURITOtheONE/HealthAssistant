@@ -6,24 +6,23 @@ const User = require('./public/assets/models/User');
 const Recipe = require('./public/assets/models/Recipe');
 const Ingredient = require('./public/assets/models/Ingredient');
 const app = express();
-require('dotenv').config(); 
 
 // Connect to The DataBase
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(err => console.error('Could not connect to MongoDB Atlas', err));
+mongoose.connect('mongodb://127.0.0.1:27017/HealthAssistant', {});
+
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static('public'));
+
 // Set up express-session middleware
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: 'superSecretKey',  // Replace with actual secret key in the future
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 1000 * 60 * 60 * 24
+      secure: process.env.NODE_ENV === 'production', // Ensures cookies are secure in production
+      maxAge: 1000 * 60 * 60 * 24 // Cookie expires after 1 day
     }
   })
 );
