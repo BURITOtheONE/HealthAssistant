@@ -5,6 +5,8 @@ const session = require('express-session');
 const User = require('./public/assets/models/User');
 const Recipe = require('./public/assets/models/Recipe');
 const Ingredient = require('./public/assets/models/Ingredient');
+const MealPlan = require('./public/assets/models/MealPlan'); // Add this line
+const mealPlannerRoutes = require('./public/assets/routes/mealPlanner'); // Add this line
 const app = express();
 require('dotenv').config(); 
 
