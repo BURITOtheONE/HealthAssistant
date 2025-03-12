@@ -172,5 +172,6 @@ app.post('/add-ingredient', async (req, res) => {
 // Use meal planner routes
 app.use('/meal-planner', mealPlannerRoutes);
 
-// Start server at localhost:1505
-app.listen(process.env.PORT || 1505, () => console.log('Server running...'));
+// Start server at localhost:3000
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}...`));
