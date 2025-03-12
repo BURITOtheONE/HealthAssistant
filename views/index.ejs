@@ -49,8 +49,16 @@
                                 </div>
                                 <div class="modal-body">
                                     <img id="recipe-modal-image" class="img-fluid mb-3" alt="Meal image">
-                                    <h6>Instructions:</h6>
-                                    <p id="recipe-modal-instructions"></p>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h6>Ingredients:</h6>
+                                            <ul id="recipe-modal-ingredients" class="list-group mb-3"></ul>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6>Instructions:</h6>
+                                            <p id="recipe-modal-instructions"></p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -94,16 +102,19 @@
                             <h5 class="card-title">${meal.strMeal}</h5>
                             <p class="card-text">${meal.strInstructions.substring(0, 150)}...</p>
                             <button class="btn btn-avocado-out view-recipe-btn" 
-                                    data-id="${meal.idMeal}"
-                                    data-title="${meal.strMeal}"
-                                    data-image="${meal.strMealThumb}"
-                                    data-instructions="${encodeURIComponent(meal.strInstructions)}">
+                                    data-id="${meal.idMeal}">
                                 View Recipe
                             </button>
                         </div>
                     </div>
                 `;
                 rowElement.appendChild(colDiv);
+                
+                // Store the meal data in a global variable for easy access
+                if (!window.mealData) {
+                    window.mealData = {};
+                }
+                window.mealData[meal.idMeal] = meal;
             });
             
             // Add event listeners to all buttons after they're added to DOM
@@ -114,14 +125,32 @@
 
         function showRecipeModal(event) {
             const button = event.currentTarget;
-            const title = button.dataset.title;
-            const image = button.dataset.image;
-            const instructions = decodeURIComponent(button.dataset.instructions);
+            const mealId = button.dataset.id;
+            const meal = window.mealData[mealId];
+            
+            if (!meal) return;
             
             // Set modal content
-            document.getElementById('recipe-modal-title').textContent = title;
-            document.getElementById('recipe-modal-image').src = image;
-            document.getElementById('recipe-modal-instructions').textContent = instructions;
+            document.getElementById('recipe-modal-title').textContent = meal.strMeal;
+            document.getElementById('recipe-modal-image').src = meal.strMealThumb;
+            document.getElementById('recipe-modal-instructions').textContent = meal.strInstructions;
+            
+            // Process ingredients
+            const ingredientsList = document.getElementById('recipe-modal-ingredients');
+            ingredientsList.innerHTML = '';
+            
+            // Loop through ingredients (API provides up to 20 ingredients)
+            for (let i = 1; i <= 20; i++) {
+                const ingredient = meal[`strIngredient${i}`];
+                const measure = meal[`strMeasure${i}`];
+                
+                if (ingredient && ingredient.trim() !== '') {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.textContent = `${measure} ${ingredient}`;
+                    ingredientsList.appendChild(li);
+                }
+            }
             
             // Show modal
             $('#recipe-modal').modal('show');
