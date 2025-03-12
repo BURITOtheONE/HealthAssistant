@@ -10,13 +10,9 @@ const mealPlannerRoutes = require('./public/assets/routes/mealPlanner'); // Add 
 const app = express();
 
 // Connect to The DataBase
-mongoose.connect('mongodb://127.0.0.1:27017/HealthAssistant', {});
-
-app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json()); // Add this line to parse JSON bodies
-app.use(express.static('public'));
-
+mongoose.connect('mongodb+srv://burito:m%40rtinell2@healthassistant.gb7oc.mongodb.net/')
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch(err => console.error('Could not connect to MongoDB Atlas', err));
 // Set up express-session middleware
 app.use(
   session({
@@ -29,6 +25,12 @@ app.use(
     }
   })
 );
+
+// Set up EJS as the view engine
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json()); // Add this line to parse JSON bodies
+app.use(express.static('public'));
 
 app.use((req, res, next) => {
   res.locals.session = req.session;  // Make session available in all views
