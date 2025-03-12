@@ -24,7 +24,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Ensures cookies are secure in production
+      secure: false, // Ensures cookies are secure in production
       maxAge: 1000 * 60 * 60 * 24 // Cookie expires after 1 day
     }
   })
@@ -117,7 +117,8 @@ app.post('/register', async (req, res) => {
         req.session.userId = user._id;  // Store user ID in session
         req.session.username = user.username;  // Store username in session
         res.redirect('/');  // Redirect to home page after successful login
-        console.log('User ID from session:', req.session.userId);  // Check if the user is logged in correctly
+        console.log('User ID from session:', req.session.userId);
+        console.log('Session after login:', req.session);  // Check if the user is logged in correctly
       } else {
         console.log('Incorrect password!');
         res.redirect('/login');  // If password doesn't match, redirect to login
