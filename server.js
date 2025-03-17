@@ -118,8 +118,10 @@ app.post('/register', async (req, res) => {
         console.log('Login successful');
         req.session.userId = user._id;  // Store user ID in session
         req.session.username = user.username;  // Store username in session
+        req.session.email = user.email;  // Store email in session
         res.redirect('/');  // Redirect to home page after successful login
         console.log('User ID from session:', req.session.userId);
+        console.log('User Email from session:', req.session.email);
         console.log('Session after login:', req.session);  // Check if the user is logged in correctly
       } else {
         console.log('Incorrect password!');

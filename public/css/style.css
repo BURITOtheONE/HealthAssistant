@@ -12596,3 +12596,13 @@ body, .bg-body{
   border-radius: 10px;
   transition: all 0.3s ease;
 }
+
+/* Title Glow Effect */
+.title-glow {
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.title-glow:hover {
+  color: #9EDF9C; /* Change this to your desired color */
+  text-shadow: 0 0 10px #9EDF9C, 0 0 20px #9EDF9C, 0 0 30px #9EDF9C; /* Glow effect */
+}
