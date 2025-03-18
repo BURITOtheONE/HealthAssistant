@@ -12867,6 +12867,26 @@ body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
   transform: rotate(30deg);
 }
 
+body.dark-mode .lead {
+  color: black;
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+
+body.dark-mode .modal-title {
+  margin-bottom: 0;
+  line-height: var(--bs-modal-title-line-height);
+  color: black;
+}
+
+body.dark-mode .dropdown-divider {
+  height: 1px;
+  margin: var(--bs-dropdown-divider-margin-y) 0;
+  overflow: hidden;
+  border-top: 2px solid var(--dark-border);
+  opacity: 1;
+}
 
 /* Useful Colors
       #A0D683
