@@ -2,6 +2,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const multer = require('multer');
+const path = require('path');
 const User = require('./public/assets/models/User');
 const Recipe = require('./public/assets/models/Recipe');
 const Ingredient = require('./public/assets/models/Ingredient');
@@ -119,6 +121,12 @@ app.post('/register', async (req, res) => {
         req.session.userId = user._id;  // Store user ID in session
         req.session.username = user.username;  // Store username in session
         req.session.email = user.email;  // Store email in session
+        req.session.profileImage = user.profileImage;  // Store profile image in session
+        req.session.dateOfBirth = user.dateOfBirth;  // Store date of birth in session
+        req.session.gender = user.gender
+        req.session.height = user.height;  // Store height in session
+        req.session.weight = user.weight;  // Store weight in session
+        req.session.save();
         res.redirect('/');  // Redirect to home page after successful login
         console.log('User ID from session:', req.session.userId);
         console.log('User Email from session:', req.session.email);
@@ -168,6 +176,143 @@ app.post('/add-ingredient', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.redirect('/fridge');  // If an error occurs, redirect back to fridge page
+  }
+});
+
+
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads/profiles');
+  },
+  filename: function (req, file, cb) {
+    cb(null, req.session.userId + path.extname(file.originalname));
+  }
+});
+
+// Create multer upload instance
+const upload = multer({ 
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: function (req, file, cb) {
+    // Accept only image files
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+      return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+  }
+});
+
+// Route to handle profile updates
+app.post('/profile/update', checkAuth, async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    
+    // Update user profile with form data
+    const updateData = {
+      dateOfBirth: req.body.dateOfBirth,
+      gender: req.body.gender,
+      height: {
+        value: req.body.heightValue,
+        unit: req.body.heightUnit
+      },
+      weight: {
+        value: req.body.weightValue,
+        unit: req.body.weightUnit
+      }
+    };
+    
+    // Update user profile
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });
+
+    // Update session with new user data
+    req.session.dateOfBirth = updatedUser.dateOfBirth;
+    req.session.gender = updatedUser.gender;
+    req.session.height = updatedUser.height;
+    req.session.weight = updatedUser.weight;
+    req.session.save();
+    
+    res.redirect('/profile');
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.redirect('/profile');
+  }
+});
+
+// Route to handle profile picture upload
+app.post('/profile/update-picture', checkAuth, upload.single('profileImage'), async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    
+    // If a file was uploaded, update profile image path
+    if (req.file) {
+      const imagePath = '/uploads/profiles/' + req.file.filename;
+      
+      // Update user profile with new image path
+      await User.findByIdAndUpdate(userId, { profileImage: imagePath });
+    }
+    
+    res.redirect('/profile');
+  } catch (error) {
+    console.error('Error updating profile picture:', error);
+    res.redirect('/profile');
+  }
+});
+
+// Route to render profile edit page
+app.get('/profile/edit', checkAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.session.userId);
+    res.render('profile-edit', { user });
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.redirect('/profile');
+  }
+});
+
+// Create the uploads directory if it doesn't exist
+const fs = require('fs');
+const dir = 'public/uploads/profiles';
+if (!fs.existsSync(dir)){
+  fs.mkdirSync(dir, { recursive: true });
+}
+
+
+// Add this to your existing middleware section
+app.use(async (req, res, next) => {
+  res.locals.session = req.session;  // Make session available in all views
+  
+  // Add theme preference to res.locals
+  if (req.session.userId) {
+    try {
+      const user = await User.findById(req.session.userId);
+      if (user) {
+        res.locals.theme = user.theme;
+      }
+    } catch (error) {
+      console.error('Error fetching user theme preference:', error);
+    }
+  }
+  
+  next();
+});
+
+// Route to update theme preference
+app.post('/update-theme-preference', async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ message: 'Not authenticated' });
+    }
+
+    const { theme } = req.body;
+    
+    // Update user theme preference
+    await User.findByIdAndUpdate(req.session.userId, { theme });
+    
+    res.status(200).json({ message: 'Theme preference updated' });
+  } catch (error) {
+    console.error('Error updating theme preference:', error);
+    res.status(500).json({ message: 'Error updating theme preference' });
   }
 });
 

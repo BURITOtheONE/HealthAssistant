@@ -12606,3 +12606,226 @@ body, .bg-body{
   color: #9EDF9C; /* Change this to your desired color */
   text-shadow: 0 0 10px #9EDF9C, 0 0 20px #9EDF9C, 0 0 30px #9EDF9C; /* Glow effect */
 }
+
+/* End of Custom CSS */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Dark Mode Styles */
+:root {
+  --light-bg: #FBF6E9;
+  --light-text: #212529;
+  --light-card-bg: #F5F5DC;
+  --light-navbar: #118B50;
+  --light-navbar-secondary: rgb(61, 157, 102);
+  --light-accent: #9EDF9C;
+  --light-border: #E3F0AF;
+  
+  --dark-bg: #121212;
+  --dark-text: #e0e0e0;
+  --dark-card-bg: #1e1e1e;
+  --dark-navbar: #0a5d34;
+  --dark-navbar-secondary: #0d7a44;
+  --dark-accent: #5ea15d;
+  --dark-border: #2d3a1f;
+}
+
+body, .bg-body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Mode Class */
+body.dark-mode, .bg-body.dark-mode{
+  background-color: #18230F;
+  color: #18230F;
+}
+
+.bg-body.dark-mode{
+  background-color: #18230F;
+  color: #18230F;
+}
+
+/* Navbar */
+body.dark-mode .nav-green {
+  background-color: var(--dark-navbar);
+}
+
+body.dark-mode .nav-light-green {
+  background-color: var(--dark-navbar-secondary);
+}
+
+/* Cards */
+body.dark-mode .card {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border);
+  color: var(--dark-text);
+}
+
+body.dark-mode .card-login {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border);
+}
+
+/* Buttons */
+body.dark-mode .btn-avocado {
+  background-color: var(--dark-accent);
+  --bs-btn-color: var(--dark-text);
+  --bs-btn-border-color: var(--dark-accent);
+  --bs-btn-hover-color: var(--dark-text);
+  --bs-btn-hover-bg: var(--dark-navbar);
+  --bs-btn-hover-border-color: var(--dark-accent);
+}
+
+body.dark-mode .btn-avocado-out {
+  background-color: var(--dark-navbar-secondary);
+  --bs-btn-color: var(--dark-text);
+  --bs-btn-border-color: var(--dark-navbar);
+  --bs-btn-hover-color: var(--dark-text);
+  --bs-btn-hover-bg: var(--dark-navbar);
+}
+
+body.dark-mode .btn-outline-avocado {
+  background-color: var(--dark-bg);
+  --bs-btn-color: var(--dark-accent);
+  --bs-btn-border-color: var(--dark-accent);
+  --bs-btn-hover-color: var(--dark-text);
+  --bs-btn-hover-bg: var(--dark-navbar-secondary);
+}
+
+/* Inputs */
+body.dark-mode .cred-input {
+  background-color: #2a2a2a;
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+body.dark-mode .cred-input:focus {
+  border-color: var(--dark-accent);
+  box-shadow: 0 0 0 0.2rem rgba(94, 161, 93, 0.25);
+}
+
+body.dark-mode .search-bar {
+  background-color: #2a2a2a;
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+body.dark-mode .search-bar:focus {
+  border-color: var(--dark-accent);
+  box-shadow: 0 0 0 0.2rem rgba(94, 161, 93, 0.25);
+}
+
+/* Modals */
+body.dark-mode .modal-content {
+  background-color: var(--dark-card-bg);
+  color: var(--dark-text);
+}
+
+/* Dropdown Menus */
+body.dark-mode .dropdown-menu {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border);
+}
+
+body.dark-mode .dropdown-item {
+  color: var(--dark-text);
+}
+
+body.dark-mode .dropdown-item:hover {
+  background-color: var(--dark-navbar-secondary);
+  color: var(--dark-text);
+}
+
+/* Tabs */
+body.dark-mode .nav-tabs .nav-link {
+  color: var(--dark-text);
+}
+
+body.dark-mode .nav-tabs .nav-link.active {
+  background-color: var(--dark-accent) !important;
+  color: var(--dark-navbar) !important;
+}
+
+/* Tables */
+body.dark-mode table {
+  color: var(--dark-text);
+}
+
+body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle-btn svg {
+  transition: transform 0.5s ease;
+}
+
+.theme-toggle-btn:hover svg {
+  transform: rotate(30deg);
+}

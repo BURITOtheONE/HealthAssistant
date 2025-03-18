@@ -20,9 +20,9 @@
         <!-- Profile Header Section -->
         <div class="card nav-light-green shadow-sm mb-4">
             <div class="card-body d-flex align-items-center gap-4 p-4">
-                <div class="btn btn-avocado d-flex align-items-center justify-content-center" style="width: 96px; height: 96px;">
+                <div class="btn btn-avocado d-flex p-2 align-items-center justify-content-center" style="width: 100px; height: 100px;">
                     <% if (session.profileImage) { %>
-                        <img src="<%= session.profileImage %>" alt="Profile" class="rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="<%= session.profileImage %>" alt="Profile" class="rounded-2" style="width: 100%; height: 100%; object-fit: cover;">
                     <% } else { %>
                         <i data-lucide="user-round" class="text-avocado" style="width: 48px; height: 48px;"></i>
                     <% } %>
@@ -72,20 +72,37 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                        <label for="Gender" class="form-label text-avocado">Gender</label>
-                        <input type="text" id="Gender" name="gender" class="form-control cred-input" value="<%= session.gender || '' %>">
+                            <label for="Gender" class="form-label text-avocado">Gender</label>
+                            <select id="Gender" name="gender" class="form-select cred-input">
+                                <option value="" <%= !session.gender ? 'selected' : '' %>>Select Gender</option>
+                                <option value="Male" <%= session.gender === 'Male' ? 'selected' : '' %>>Male</option>
+                                <option value="Female" <%= session.gender === 'Female' ? 'selected' : '' %>>Female</option>
+                                <option value="Other" <%= session.gender === 'Other' ? 'selected' : '' %>>Other</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                        <label for="Height" class="form-label text-avocado">Height</label>
-                        <input type="text" id="Height" name="height" class="form-control cred-input" value="<%= session.height?.value ? session.height.value + ' ' + session.height.unit : '' %>">
+                            <label for="Height" class="form-label text-avocado">Height</label>
+                            <div class="input-group">
+                                <input type="number" id="Height" name="heightValue" class="form-control cred-input" value="<%= session.height?.value || '' %>">
+                                <select id="HeightUnit" name="heightUnit" class="form-select cred-input">
+                                    <option value="cm" <%= session.height?.unit === 'cm' ? 'selected' : '' %>>cm</option>
+                                    <option value="in" <%= session.height?.unit === 'in' ? 'selected' : '' %>>in</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                        <label for="Weight" class="form-label text-avocado">Weight</label>
-                        <input type="text" id="Weight" name="weight" class="form-control cred-input" value="<%= session.weight?.value ? session.weight.value + ' ' + session.weight.unit : '' %>">
+                            <label for="Weight" class="form-label text-avocado">Weight</label>
+                            <div class="input-group">
+                                <input type="number" id="Weight" name="weightValue" class="form-control cred-input" value="<%= session.weight?.value || '' %>">
+                                <select id="WeightUnit" name="weightUnit" class="form-select cred-input">
+                                    <option value="kg" <%= session.weight?.unit === 'kg' ? 'selected' : '' %>>kg</option>
+                                    <option value="lb" <%= session.weight?.unit === 'lb' ? 'selected' : '' %>>lb</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="col-12">

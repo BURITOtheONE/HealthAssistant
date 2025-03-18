@@ -1,4 +1,46 @@
 <!-- Navbar -->
+ <!-- Add this to the head section of your main layout file (or individual EJS files) -->
+<script>
+    // Set initial theme based on user preference or system preference
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme');
+      const userTheme = '<%= locals.theme || "system" %>';
+      
+      // Check if user has a saved theme preference
+      if (savedTheme) {
+        if (savedTheme === 'dark') {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      } 
+      // If no saved theme, use user's account setting
+      else if (userTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+      } else if (userTheme === 'light') {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+      } 
+      // If set to system, check system preference
+      else if (userTheme === 'system') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+          document.body.classList.add('dark-mode');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          document.body.classList.remove('dark-mode');
+          localStorage.setItem('theme', 'light');
+        }
+      }
+      
+      // Set flag for JavaScript to know if user is logged in
+      window.isLoggedIn = "<%= !!session.userId %>";
+    });
+  </script>
+  
+  <!-- Add this to the end of your body tag -->
+  <script src="/js/theme-manager.js"></script>
 <nav class="navbar navbar-expand-lg nav-green">
     <div class="container-fluid">
         <a class="navbar-brand title-glow text-light" href="/">Health Assistant</a>

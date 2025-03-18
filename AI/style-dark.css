@@ -1,0 +1,506 @@
+/* DARK MODE */
+
+/* Start of Dark Mode CSS */
+
+.nav-item.dropdown:hover .dropdown-menu {
+  position: absolute;
+  display: block;
+  animation: dropmenu 0.5s ease-in-out;
+}
+
+@keyframes dropmenu {
+0% {
+    margin-top: -0.5rem;
+    transform: rotate(-5deg);
+    opacity: 0;
+}
+30% {
+    margin-top: 0.2rem;
+    transform: rotate(3deg);
+    opacity: 0.7;
+}
+60% {
+    margin-top: 0.1rem;
+    transform: rotate(-2deg);
+    opacity: 0.9;
+}
+100% {
+    margin-top: 0rem;
+    transform: rotate(0deg);
+    opacity: 1;
+}
+}
+
+.divider {
+  background-color: #333333;
+}
+
+.divider:hover {
+  animation: divhoverr 2s infinite;
+}
+
+.drop:hover {
+  border-radius: 15px;
+  animation: hoverr 3s infinite;
+}
+
+/* Add sparkle animation - darkened */
+@keyframes hoverr {
+  0% {
+      transform: scale(1);
+      background-color: #2a2a2a;
+      box-shadow: 0 0 10px #176329;
+  }
+  25% {
+      transform: scale(1.02);
+      background-color: #333333;
+      box-shadow: 0 0 15px #1d7631;
+  }
+  50% {
+      transform: scale(1);
+      background-color: #2a2a2a;
+      box-shadow: 0 0 10px #29823a;
+  }
+  75%{
+      transform: scale(1/1.02);
+      background-color: #333333;
+      box-shadow: 0 0 15px #1d7631;
+  }
+  100%{
+      transform: scale(1);
+      background-color: #2a2a2a;
+      box-shadow: 0 0 10px #176329;
+  }
+}
+
+/* Add sparkle animation - darkened but still colorful */
+@keyframes divhoverr {
+  0% {
+      background-color: #666600;
+      box-shadow: 0 0 10px #660000;
+  }
+  15% {
+      background-color: #660000;
+      box-shadow: 0 0 15px #660066;
+  }
+  30% {
+      background-color: #660066;
+      box-shadow: 0 0 10px #000066;
+  }
+  45%{
+      background-color: #000066;
+      box-shadow: 0 0 15px #006666;
+  }
+  62%{
+      background-color: #006666;
+      box-shadow: 0 0 10px #006600;
+  }
+  77%{
+      background-color: #006600;
+      box-shadow: 0 0 10px #666600;
+  }
+  100%{
+      background-color: #666600;
+      box-shadow: 0 0 10px #660000;
+  }
+}
+
+.nav-green{
+  background-color: #0c5a33;
+}
+
+.mini-navbar {
+padding: 0.25rem 0.8rem;
+font-size: 1rem;
+}
+
+.nav-light-green{
+background-color: #0a4228;
+}
+
+body, .bg-body{
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.btn-avocado {
+  background-color: #2e6e2d;
+  --bs-btn-color: #9EDF9C;
+  --bs-btn-border-color: #176329;
+  --bs-btn-hover-color: #2e6e2d;
+  --bs-btn-hover-bg: #176329;
+  --bs-btn-hover-border-color: #2e6e2d;
+  --bs-btn-focus-shadow-rgb: 25, 135, 84;
+  --bs-btn-active-color: #2e6e2d;
+  --bs-btn-active-bg: #176329;
+  --bs-btn-active-border-color: #176329;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.25);
+  --bs-btn-disabled-color: #176329;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #176329;
+  --bs-gradient: none;  
+}
+
+.search-bar:focus {
+border-color: #2d4022;
+box-shadow: 0 0 0 0.2rem #2d4022;
+outline: none;
+}
+
+/* General Animations */
+.card, .btn, .search-bar, .cred-input{
+  transition: all 0.3s ease-in-out;
+}
+
+/* Navbar Enhancements */
+.nav-green {
+  background-color: #0c5a33;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.nav-green .btn-profile img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.nav-green .btn-profile:hover img {
+  transform: scale(1.1);
+  box-shadow: 0 0 5px #2e2e2e;
+}
+
+/* Product Cards */
+.card {
+  border: 1px solid #2d4022;
+  border-radius: 10px;
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  color: #e0e0e0;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+}
+
+.btn-edit {
+  background-color: #2e6e2d;
+  border: none;
+  color: #e0e0e0;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.btn-edit:hover {
+  background-color: #205a24;
+  box-shadow: 0 0 10px #176329;
+}
+
+.btn-delete {
+  background-color: #8B3A3A;
+  border: none;
+  color: #e0e0e0;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.btn-delete:hover {
+  background-color: #6d2e2e;
+  box-shadow: 0 0 10px #8B3A3A;
+}
+
+/* Add Product Button */
+.btn-add {
+  background-color: #2e6e2d;
+  color: #e0e0e0;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #3d6e3d;
+  border-radius: 10px;
+}
+
+.btn-add:hover {
+  background-color: #205a24;
+  border-color: #0c5a33;
+  box-shadow: 0 0 10px #176329;
+}
+
+/* Search Bar Focus */
+.search-bar {
+  border: 1px solid #2d4022;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+}
+
+.search-bar:focus {
+  border-color: #2e6e2d;
+  box-shadow: 0 0 10px #2d4022;
+}
+
+/* Recipe Cards */
+.card-recipe {
+  background-color: #1e1e1e;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-recipe img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+  filter: brightness(0.9);
+}
+
+.card-recipe:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.card-recipe img:hover {
+  transform: scale(1.05);
+}
+
+/* Profile Dropdown */
+.nav-item.dropdown {
+position: relative;
+}
+
+.nav-item.dropdown .dropdown-menu {
+display: none;
+position: absolute;
+top: 100%;
+left: 0;
+z-index: 1050;
+background-color: #1e1e1e;
+border: 2px solid #2e6e2d;
+border-radius: 10px;
+opacity: 0;
+transform: translateY(-10px);
+transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+display: block;
+opacity: 1;
+transform: translateY(0);
+left: -1.55rem;
+}
+
+.nav-item.dropdown:hover .profile-dropdown-menu {
+left: -6rem;
+}
+
+.dropdown-item {
+color: #e0e0e0;
+padding: 10px 20px;
+transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+background-color: #2e6e2d;
+color: #e0e0e0;
+}
+
+.mini-navbar .navbar-nav .nav-item + .nav-item {
+border-left: 1px solid #2e6e2d;
+padding-left: 1rem;
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 4px solid #2a2a2a;
+  border-top: 4px solid #0c5a33;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+.btn-avocado-out {
+background-color: #0a4228;
+--bs-btn-color: #e0e0e0;
+--bs-btn-border-color: #176329;
+--bs-btn-hover-color: #2e6e2d;
+--bs-btn-hover-bg: #2a2a2a;
+--bs-btn-hover-border-color: #2e6e2d;
+--bs-btn-focus-shadow-rgb: 25, 135, 84;
+--bs-btn-active-color: #2e6e2d;
+--bs-btn-active-bg: #2a2a2a;
+--bs-btn-active-border-color: #2a2a2a;
+--bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.25);
+--bs-btn-disabled-color: #2a2a2a;
+--bs-btn-disabled-bg: transparent;
+--bs-btn-disabled-border-color: #2a2a2a;
+--bs-gradient: none;  
+}
+
+.btn-outline-avocado {
+background-color: #1e1e1e;
+--bs-btn-color: #2e6e2d;
+--bs-btn-border-color: #2e6e2d;
+--bs-btn-hover-color: #e0e0e0;
+--bs-btn-hover-bg: #0a4228;
+--bs-btn-hover-border-color: #176329;
+--bs-btn-focus-shadow-rgb: 25, 135, 84;
+--bs-btn-active-color: #2e6e2d;
+--bs-btn-active-bg: #2a2a2a;
+--bs-btn-active-border-color: #2a2a2a;
+--bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.25);
+--bs-btn-disabled-color: #2a2a2a;
+--bs-btn-disabled-bg: transparent;
+--bs-btn-disabled-border-color: #2a2a2a;
+--bs-gradient: none;  
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+/* Login Card */
+.card-login {
+border: 1px solid #2d4022;
+border-radius: 10px;
+background-color: #1e1e1e;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.card-login:hover {
+box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+}
+
+.text-avocado {
+--bs-text-opacity: 1;
+color: #3d9a65 !important;
+}
+
+.text-avocado-back {
+--bs-text-opacity: 1;
+color: #9EDF9C !important;
+transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.text-avocado-back:hover {
+color: #c0ffc4 !important;
+transform: scale(1.1);
+}
+
+/* Login Input Focus */
+.cred-input {
+border: 1px solid #2d4022;
+border-radius: 15px;
+padding: 0.5rem 1rem;
+background-color: #2a2a2a;
+color: #e0e0e0;
+transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cred-input:focus {
+border-color: #2d4022;
+box-shadow: 0 0 0 0.2rem #2d4022;
+}
+
+.cred-input:-webkit-autofill {
+background-color: #1e3b1a !important;
+color: #e0e0e0 !important;
+}
+
+.cred-input:-webkit-autofill:not(:focus) {
+background-color: #1e3b1a !important;
+box-shadow: 0 0 0px 1000px #1e3b1a inset;
+}
+
+.cred-input:-webkit-autofill:focus {
+background-color: #1e3b1a !important;
+box-shadow: 0 0 0px 1000px #1e3b1a inset, 0 0 0 0.2rem #2d4022;
+}
+
+.h1-lg{
+font-size: 5rem;
+font-weight: bold;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease;
+}
+
+/* Modal Content */
+.modal-content {
+  background: rgba(30, 30, 30, 0.95);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #e0e0e0;
+}
+
+/* Close Button */
+.close-btn {
+  background-color: #8B3A3A;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+  background-color: #6d2e2e;
+}
+
+.nav-link {
+  color: #e0e0e0;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+}
+
+/* Custom styles for active tab links */
+.nav-link.active {
+background-color: #2e6e2d !important;
+color: #e0e0e0 !important;
+border-color: #333333;
+border-radius: 10px;
+transition: all 0.3s ease;
+}
+
+/* Title Glow Effect */
+.title-glow {
+transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.title-glow:hover {
+color: #2e6e2d;
+text-shadow: 0 0 10px #2e6e2d, 0 0 20px #2e6e2d, 0 0 30px #2e6e2d;
+}
