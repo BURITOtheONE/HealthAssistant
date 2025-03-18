@@ -12383,7 +12383,7 @@ body .dropdown-item {
 }
 
 body .dropdown-item:hover {
-  background-color: #A0D683; /* Slightly brighter on hover */
+  background-color: #72BF78; /* Slightly brighter on hover */
   color: #333;
   transform: translateX(5px); /* Subtle movement */
 }
@@ -12804,6 +12804,10 @@ body.dark-mode .text-muted {
   color: var(--light-bg) !important;
 }
 
+body.dark-mode .form-text {
+  color: var(--light-navbar);
+}
+
 /* Dropdown Menus */
 body.dark-mode .dropdown-menu {
   background-color: var(--dark-bg, #1e1e1e); /* Dark background */
@@ -12862,3 +12866,8 @@ body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
 .theme-toggle-btn:hover svg {
   transform: rotate(30deg);
 }
+
+
+/* Useful Colors
+      #A0D683
+      #72BF78    */
