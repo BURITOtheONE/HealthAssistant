@@ -161,6 +161,58 @@
             const data = await response.json();
             return data.meals[0];
         }
+
+        async function searchMeals() {
+    const query = document.getElementById('search-input').value.trim();
+    const mealContainer = document.getElementById('meal-container');
+    
+    if (query === '') {
+        loadMeals(); // Reload random meals when search is cleared
+        return;
+    }
+
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
+    const data = await response.json();
+    
+    mealContainer.innerHTML = ''; // Clear previous results
+
+    if (!data.meals) {
+        mealContainer.innerHTML = `<p class="text-center mt-3">No meals found for "${query}"</p>`;
+        return;
+    }
+
+    // Create a row container for search results
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'row';
+    mealContainer.appendChild(rowDiv);
+
+    data.meals.forEach(meal => {
+        const colDiv = document.createElement('div');
+        colDiv.className = 'col-sm-4';
+        colDiv.innerHTML = `
+            <div class="card" style="margin: 1rem">
+                <img class="card-img-top p-3 rounded-5" src="${meal.strMealThumb}" alt="Meal image">
+                <div class="card-body">
+                    <h5 class="card-title">${meal.strMeal}</h5>
+                    <p class="card-text">${meal.strInstructions.substring(0, 150)}...</p>
+                    <button class="btn btn-avocado-out view-recipe-btn" data-id="${meal.idMeal}">View Recipe</button>
+                </div>
+            </div>
+        `;
+        rowDiv.appendChild(colDiv);
+
+        // Store meal data globally
+        if (!window.mealData) {
+            window.mealData = {};
+        }
+        window.mealData[meal.idMeal] = meal;
+    });
+
+    // Attach event listeners for recipe buttons
+    document.querySelectorAll('.view-recipe-btn').forEach(button => {
+        button.addEventListener('click', showRecipeModal);
+    });
+    }
     </script>
 
     <!-- Initialize Lucide icons -->

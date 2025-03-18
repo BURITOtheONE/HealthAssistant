@@ -1,87 +1,286 @@
-// This is a copy of the legacy version of the login page
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <!-- Bootstrap JavaScript library for interactive elements -->
-  <script src="js/bootstrap.bundle.js"></script>  
-  <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meal Planner - Health Assistant</title>
+  <!-- Bootstrap CSS (v5.3) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Your custom CSS should define .btn-avocado and .bg-avocado -->
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Lucide icons for consistent iconography -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- jQuery (if needed) and Bootstrap Bundle (Popper included) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
-<!-- Go Back -->
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <a class="navbar-brand text-avocado-back" href="/">&#8592; Go Back</a>
-    </div>
-</nav>
+<body class="bg-body">
 
-<!-- Login Form -->
-<div class="container my-super">
-  <div class="row align-items-center justify-content-center">
-    <!-- Welcome Section -->
-    <div id="loginMsg" class="col-lg-6 mb-4 mb-lg-0 text-center">
-      <h1 class="text-avocado my-4 h1-lg">HealthAssistant</h1>
-      <p class="lead text-muted">Don't have an account yet?</p>
-      <a href="/register" class="btn btn-outline-avocado btn-lg mt-3">Create One</a>
-      <a id="switchToRegister" class="btn btn-outline-avocado btn-lg mt-3">change form</a>
-    </div>
+  <!-- Include the existing navbar -->
+  <%- include('partials/navbar') %>
 
-    <!-- Login Form Section -->
-    <div id="loginForm" class="col-lg-6">
-      <div class="card-login shadow-lg p-4">
-        <h2 class="text-center text-avocado mb-4">Login</h2>
-        <form action="/login" method="POST">
-          <!-- Username Input -->
-          <div class="form-group mb-3">
-            <label for="username" class="form-label text-avocado">Username</label>
-            <input required placeholder="Username" type="text" name="username" id="username" class="form-control cred-input">
+  <!-- Main Meal Planner Content -->
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <h1>Meal Planner</h1>
+        <p class="text-muted">Plan your meals for the week</p>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-sm-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="card-title text-center">Plan Your Meals</h2>
+            <div class="row mt-4">
+              <div class="col-sm-12">
+                <input type="date" id="meal-date" class="form-control mb-3">
+              </div>
+              <div class="col-sm-6 col-md-3 mb-3">
+                <div class="input-group">
+                  <input type="text" id="breakfast" class="form-control" placeholder="Breakfast">
+                  <button class="btn btn-avocado" type="button" onclick="saveMealPlan()">
+                    <i data-lucide="plus"></i> Add
+                  </button>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3 mb-3">
+                <div class="input-group">
+                  <input type="text" id="lunch" class="form-control" placeholder="Lunch">
+                  <button class="btn btn-avocado" type="button" onclick="saveMealPlan()">
+                    <i data-lucide="plus"></i> Add
+                  </button>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3 mb-3">
+                <div class="input-group">
+                  <input type="text" id="dinner" class="form-control" placeholder="Dinner">
+                  <button class="btn btn-avocado" type="button" onclick="saveMealPlan()">
+                    <i data-lucide="plus"></i> Add
+                  </button>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3 mb-3">
+                <div class="input-group">
+                  <input type="text" id="snacks" class="form-control" placeholder="Snacks">
+                  <button class="btn btn-avocado" type="button" onclick="saveMealPlan()">
+                    <i data-lucide="plus"></i> Add
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-sm-12">
+                <h4>Planned Meals</h4>
+                <ul id="planned-meals" class="list-group">
+                  <!-- Planned meals will be dynamically added here -->
+                </ul>
+              </div>
+            </div>
           </div>
-          <!-- Password Input -->
-          <div class="form-group mb-4">
-            <label for="password" class="form-label text-avocado">Password</label>
-            <input required placeholder="Password" type="password" name="password" id="password" class="form-control cred-input">
-          </div>
-          <!-- Submit Button -->
-          <div class="text-center">
-            <button class="btn btn-avocado btn-lg w-100" type="submit">Login</button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- Modal Trigger (example button) -->
+  <div class="container py-4 text-center">
+    <button type="button" class="btn btn-avocado btn-lg" data-bs-toggle="modal" data-bs-target="#recipe-modal">
+      Launch Last Recipe Modal
+    </button>
+  </div>
+
+  <!-- Fullscreen Recipe Modal -->
+  <div class="modal fade" id="recipe-modal" tabindex="-1" aria-labelledby="recipe-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen modal-dialog-centered">
+      <div class="modal-content rounded-0 shadow-sm">
+        <div class="modal-header bg-avocado text-white">
+          <h1 class="modal-title fs-4" id="recipe-modal-title">Recipe Details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <!-- Loading State -->
+          <div id="recipe-loading" class="text-center">
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading recipe details...</p>
+          </div>
+          <!-- Content: Initially hidden -->
+          <div id="recipe-content" class="d-none">
+            <div class="container-fluid">
+              <div class="row">
+                <!-- Left Column: Image -->
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                  <img id="recipe-modal-image" src="https://via.placeholder.com/500" alt="Meal image" class="img-fluid rounded" />
+                </div>
+                <!-- Right Column: Instructions & Ingredients -->
+                <div class="col-lg-7">
+                  <h2 class="h5 mb-3">Instructions</h2>
+                  <p id="recipe-modal-instructions" class="lead">
+                    Step-by-step instructions go here.
+                  </p>
+                  <hr>
+                  <h2 class="h5 mb-3">Ingredients</h2>
+                  <ul id="recipe-modal-ingredients" class="list-group">
+                    <li class="list-group-item">Ingredient 1</li>
+                    <li class="list-group-item">Ingredient 2</li>
+                    <li class="list-group-item">Ingredient 3</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Error State: Initially hidden -->
+          <div id="recipe-error" class="alert alert-warning d-none mt-3">
+            No recipe found for this meal. Please try another search term.
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-avocado" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
-    <script>
-      // Switch to Register Form
-      $("#switchToRegister").click(function () {
-          $("#loginForm").hide();
-          $("#registerForm").fadeIn();
-          $("#registerFormContent")[0].reset(); // Reset Login form
-      });
+  </div>
 
-      // Switch to Login Form
-      $("#switchToLogin").click(function () {
-          $("#registerForm").hide();
-          $("#loginForm").fadeIn();
-          $("#loginFormContent")[0].reset(); // Reset Register form
-      });
+  <!-- Include the existing footer -->
+  <%- include('partials/footer') %>
 
-      // Toggle between Login and Register forms via the navbar link
-      $("#toggleFormBtn").click(function () {
-          if ($("#registerForm").is(":visible")) {
-              $("#registerForm").hide();
-              $("#loginForm").fadeIn();
-          } else {
-              $("#loginForm").hide();
-              $("#registerForm").fadeIn();
+  <!-- Custom Script -->
+  <script>
+    lucide.createIcons();
+
+    document.getElementById('meal-date').addEventListener('change', loadMealPlan);
+
+    async function loadMealPlan() {
+      const date = document.getElementById('meal-date').value;
+      if (!date) return;
+      const response = await fetch(`/meal-planner/${date}`);
+      const mealPlan = await response.json();
+      document.getElementById('breakfast').value = mealPlan?.meals?.breakfast || '';
+      document.getElementById('lunch').value = mealPlan?.meals?.lunch || '';
+      document.getElementById('dinner').value = mealPlan?.meals?.dinner || '';
+      document.getElementById('snacks').value = mealPlan?.meals?.snacks || '';
+      updatePlannedMeals(mealPlan?.meals);
+    }
+
+    async function saveMealPlan() {
+      const date = document.getElementById('meal-date').value;
+      if (!date) return;
+      const meals = {
+        breakfast: document.getElementById('breakfast').value,
+        lunch: document.getElementById('lunch').value,
+        dinner: document.getElementById('dinner').value,
+        snacks: document.getElementById('snacks').value
+      };
+      const response = await fetch(`/meal-planner/${date}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(meals)
+      });
+      const mealPlan = await response.json();
+      updatePlannedMeals(mealPlan.meals);
+    }
+
+    function updatePlannedMeals(meals) {
+      const plannedMeals = document.getElementById('planned-meals');
+      plannedMeals.innerHTML = `
+        <li class="list-group-item">Breakfast: <span class="meal-item" data-meal="${meals?.breakfast || ''}">${meals?.breakfast || ''}</span></li>
+        <li class="list-group-item">Lunch: <span class="meal-item" data-meal="${meals?.lunch || ''}">${meals?.lunch || ''}</span></li>
+        <li class="list-group-item">Dinner: <span class="meal-item" data-meal="${meals?.dinner || ''}">${meals?.dinner || ''}</span></li>
+        <li class="list-group-item">Snacks: <span class="meal-item" data-meal="${meals?.snacks || ''}">${meals?.snacks || ''}</span></li>
+      `;
+      document.querySelectorAll('.meal-item').forEach(item => {
+        if (item.textContent.trim()) {
+          item.classList.add('text-primary', 'cursor-pointer');
+          item.style.cursor = 'pointer';
+          item.addEventListener('click', showMealDetails);
+        }
+      });
+    }
+
+    async function showMealDetails(event) {
+      const mealName = event.target.dataset.meal;
+      if (!mealName) return;
+      // Show modal with loading state
+      const recipeModalEl = document.getElementById('recipe-modal');
+      const recipeModal = new bootstrap.Modal(recipeModalEl);
+      recipeModal.show();
+      document.getElementById('recipe-modal-title').textContent = mealName;
+      document.getElementById('recipe-loading').classList.remove('d-none');
+      document.getElementById('recipe-content').classList.add('d-none');
+      document.getElementById('recipe-error').classList.add('d-none');
+
+      try {
+        const formattedMealName = mealName.toLowerCase().replace(/\s+/g, '_');
+        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${formattedMealName}`);
+        const data = await response.json();
+        if (data.meals && data.meals.length > 0) {
+          const meal = data.meals[0];
+          document.getElementById('recipe-modal-image').src = meal.strMealThumb;
+          document.getElementById('recipe-modal-instructions').textContent = meal.strInstructions;
+          const ingredientsList = document.getElementById('recipe-modal-ingredients');
+          ingredientsList.innerHTML = '';
+          for (let i = 1; i <= 20; i++) {
+            const ingredient = meal[`strIngredient${i}`];
+            const measure = meal[`strMeasure${i}`];
+            if (ingredient && ingredient.trim() !== '') {
+              const li = document.createElement('li');
+              li.className = 'list-group-item';
+              li.textContent = `${measure} ${ingredient}`;
+              ingredientsList.appendChild(li);
+            }
           }
-      });
-  </script>
+          document.getElementById('recipe-loading').classList.add('d-none');
+          document.getElementById('recipe-content').classList.remove('d-none');
+        } else {
+          document.getElementById('recipe-loading').classList.add('d-none');
+          document.getElementById('recipe-error').classList.remove('d-none');
+        }
+      } catch (error) {
+        console.error('Error fetching recipe:', error);
+        document.getElementById('recipe-loading').classList.add('d-none');
+        document.getElementById('recipe-error').classList.remove('d-none');
+      }
+    }
 
-      <!-- End of Login Form -->
+    document.addEventListener('DOMContentLoaded', function () {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('meal-date').value = today;
+      loadMealPlan();
+    });
+
+    // Autocomplete for meal inputs
+    function setupAutocomplete(inputId) {
+      const input = document.getElementById(inputId);
+      input.addEventListener('input', async function () {
+        const query = input.value.trim();
+        if (query.length < 2) return;
+        try {
+          const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
+          const data = await response.json();
+          const datalistId = `${inputId}-datalist`;
+          let datalist = document.getElementById(datalistId);
+          if (!datalist) {
+            datalist = document.createElement('datalist');
+            datalist.id = datalistId;
+            document.body.appendChild(datalist);
+            input.setAttribute('list', datalistId);
+          }
+          datalist.innerHTML = '';
+          if (data.meals) {
+            data.meals.forEach(meal => {
+              const option = document.createElement('option');
+              option.value = meal.strMeal;
+              datalist.appendChild(option);
+            });
+          }
+        } catch (error) {
+          console.error('Error fetching autocomplete suggestions:', error);
+        }
+      });
+    }
+    ['breakfast', 'lunch', 'dinner', 'snacks'].forEach(setupAutocomplete);
+  </script>
 </body>
 </html>
