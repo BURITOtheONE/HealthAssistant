@@ -73,13 +73,7 @@ app.get('/recipe', (req, res) => res.render('recipe'));
 app.get('/profile', (req, res) => res.render('profile'));
 app.get('/settings', (req, res) => res.render('settings'));
 app.get('/login', (req, res) =>{
-  if(!req.session.userId){
-    res.render('login')
-  }
-  else {
-    res.redirect('/')
-  }
-});
+    res.render('login');});
 app.get('/register', (req, res) => res.render('register'));
 app.get('/meal-planner', checkAuth, (req, res) => res.render('meal-planner')); // Add checkAuth middleware
 

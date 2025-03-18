@@ -12370,45 +12370,22 @@ body, .bg-body{
     transform: scale(1.05);
 }
 
-/* Profile Dropdown */
-.nav-item.dropdown {
-  position: relative;
+/* Dropdown Menus */
+body .dropdown-menu {
+  background-color: var(--light-bg, #1e1e1e); /* Dark background */
+  border-color: var(--light-bg, #444); /* Softer border */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Adds depth */
 }
 
-.nav-item.dropdown .dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%; /* Ensures it aligns below the parent */
-  left: 0;
-  z-index: 1050;
-  background-color: #FBF6E9; /* Matches your green palette */
-  border: 2px solid #9EDF9C; /* Border for visibility */
-  border-radius: 10px;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+body .dropdown-item {
+  color: #333; 
+  transition: background-color 0.2s ease, transform 0.1s ease-in-out;
 }
 
-.nav-item.dropdown:hover .dropdown-menu {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-  left: -1.55rem;
-}
-
-.nav-item.dropdown:hover .profile-dropdown-menu {
-  left: -6rem;
-}
-
-.dropdown-item {
-  color: #212529;
-  padding: 10px 20px;
-  transition: background-color 0.2s ease;
-}
-
-.dropdown-item:hover {
-  background-color: #9EDF9C;
-  color: #118B50;
+body .dropdown-item:hover {
+  background-color: #A0D683; /* Slightly brighter on hover */
+  color: #333;
+  transform: translateX(5px); /* Subtle movement */
 }
 
 .mini-navbar .navbar-nav .nav-item + .nav-item {
@@ -12665,7 +12642,7 @@ body, .bg-body{
 
 
 
-/* Dark Mode Styles */
+/* Dark Mode Styles - Updated */
 :root {
   --light-bg: #FBF6E9;
   --light-text: #212529;
@@ -12674,29 +12651,37 @@ body, .bg-body{
   --light-navbar-secondary: rgb(61, 157, 102);
   --light-accent: #9EDF9C;
   --light-border: #E3F0AF;
-  
-  --dark-bg: #121212;
+  --light-placeholder: rgba(0, 0, 0, 0.5);
+  --light-input-bg: #ffffff;
+
+  --dark-bg: #18230F;
   --dark-text: #e0e0e0;
   --dark-card-bg: #1e1e1e;
-  --dark-navbar: #0a5d34;
-  --dark-navbar-secondary: #0d7a44;
-  --dark-accent: #5ea15d;
-  --dark-border: #2d3a1f;
+  --dark-navbar: #1F7D53;
+  --dark-navbar-secondary: #255F38;
+  --dark-accent: #27391C;
+  --dark-border: #1F7D53;
+  --dark-placeholder: rgba(255, 255, 255, 0.7);
+  --dark-input-bg: #255F38;
+  --dark-autofill-bg: #2a2a2a;
+  --dark-autofill-focus-bg: #2a2a2a;
+  --dark-modal-bg: rgba(255, 255, 255, 0.90);
+  --dark-webkit-autofill: #f3ffe5;
+  --dark-webkit-autofill-focus: #e3fbd0;
 }
 
-body, .bg-body {
+/* Body and background fix */
+body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark Mode Class */
-body.dark-mode, .bg-body.dark-mode{
-  background-color: #18230F;
-  color: #18230F;
+body.dark-mode {
+  background-color: var(--dark-bg) !important;
+  color: var(--dark-text);
 }
 
-.bg-body.dark-mode{
-  background-color: #18230F;
-  color: #18230F;
+body.dark-mode .bg-body {
+  background-color: var(--dark-bg) !important;
 }
 
 /* Navbar */
@@ -12724,18 +12709,26 @@ body.dark-mode .card-login {
 body.dark-mode .btn-avocado {
   background-color: var(--dark-accent);
   --bs-btn-color: var(--dark-text);
-  --bs-btn-border-color: var(--dark-accent);
-  --bs-btn-hover-color: var(--dark-text);
-  --bs-btn-hover-bg: var(--dark-navbar);
+  --bs-btn-border-color: var(--dark-border);
+  --bs-btn-hover-color: var(--dark-accent);
   --bs-btn-hover-border-color: var(--dark-accent);
+}
+
+body.dark-mode .btn-avocado:hover {
+  background-color: var(--dark-border);
 }
 
 body.dark-mode .btn-avocado-out {
   background-color: var(--dark-navbar-secondary);
   --bs-btn-color: var(--dark-text);
-  --bs-btn-border-color: var(--dark-navbar);
-  --bs-btn-hover-color: var(--dark-text);
+  --bs-btn-border-color: var(--dark-input-bg);
+  --bs-btn-hover-color: var(--dark-border);
   --bs-btn-hover-bg: var(--dark-navbar);
+}
+
+body.dark-mode .btn-avocado-out:hover {
+  background-color: var(--light-accent);
+  border-color:  var(--dark-accent);
 }
 
 body.dark-mode .btn-outline-avocado {
@@ -12746,58 +12739,98 @@ body.dark-mode .btn-outline-avocado {
   --bs-btn-hover-bg: var(--dark-navbar-secondary);
 }
 
+body.dark-mode .btn-avocado:hover {
+  background-color: var(--dark-border);
+}
+
 /* Inputs */
 body.dark-mode .cred-input {
-  background-color: #2a2a2a;
-  color: var(--dark-text);
-  border-color: var(--dark-border);
+  background-color: var(--dark-webkit-autofill);
+  color: var(--light-navbar);
 }
 
 body.dark-mode .cred-input:focus {
-  border-color: var(--dark-accent);
+  border-color: var(--dark-border);
+  background-color: var(--dark-webkit-autofill-focus);
   box-shadow: 0 0 0 0.2rem rgba(94, 161, 93, 0.25);
 }
 
-body.dark-mode .search-bar {
-  background-color: #2a2a2a;
-  color: var(--dark-text);
+/* Search bar text fix with higher specificity */
+body.dark-mode .search-bar,
+body.dark-mode input.search-bar {
+  background-color: var(--dark-input-bg);
+  color: var(--dark-text) !important;
   border-color: var(--dark-border);
 }
 
-body.dark-mode .search-bar:focus {
+body.dark-mode .search-bar::placeholder,
+body.dark-mode input.search-bar::placeholder {
+  color: var(--dark-placeholder) !important;
+}
+
+body.dark-mode .search-bar:focus,
+body.dark-mode input.search-bar:focus {
   border-color: var(--dark-accent);
   box-shadow: 0 0 0 0.2rem rgba(94, 161, 93, 0.25);
+  color: var(--dark-text) !important;
+}
+
+/* Autofill styles */
+
+body.dark-mode input.cred-input:-webkit-autofill {
+  background-color: var(--dark-border) !important; /* Light green for autofill */
+  color: #333 !important;
+}
+
+body.dark-mode input.cred-input:-webkit-autofill:not(:focus) {
+  background-color: var(--dark-border) !important; /* Slightly darker green when focused */
+  box-shadow: 0 0 0px 1000px #e3fbd0 inset /* Combined glow effect */
+}
+
+body.dark-mode input.cred-input:-webkit-autofill:focus {
+  background-color: var(--dark-border) !important; /* Slightly darker green when focused */
+  box-shadow: 0 0 0px 1000px #e3fbd0 inset, 0 0 0 0.2rem var(--dark-border); /* Combined glow effect */
 }
 
 /* Modals */
 body.dark-mode .modal-content {
-  background-color: var(--dark-card-bg);
+  background-color: var(--dark-modal-bg);
   color: var(--dark-text);
+}
+
+/* Text */
+body.dark-mode .text-muted {
+  --bs-text-opacity: 1;
+  color: var(--light-bg) !important;
 }
 
 /* Dropdown Menus */
 body.dark-mode .dropdown-menu {
-  background-color: var(--dark-card-bg);
-  border-color: var(--dark-border);
+  background-color: var(--dark-bg, #1e1e1e); /* Dark background */
+  border-color: var(--dark-border, #444); /* Softer border */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Adds depth */
 }
 
 body.dark-mode .dropdown-item {
-  color: var(--dark-text);
+  color: var(--dark-text, #ddd);
+  transition: background-color 0.2s ease, transform 0.1s ease-in-out;
 }
 
 body.dark-mode .dropdown-item:hover {
-  background-color: var(--dark-navbar-secondary);
-  color: var(--dark-text);
+  background-color: var(--dark-navbar-secondary, #333); /* Slightly brighter on hover */
+  color: var(--dark-text, #fff);
+  transform: translateX(5px); /* Subtle movement */
 }
 
 /* Tabs */
 body.dark-mode .nav-tabs .nav-link {
-  color: var(--dark-text);
+  color: var(--dark-text, #bbb);
 }
 
 body.dark-mode .nav-tabs .nav-link.active {
-  background-color: var(--dark-accent) !important;
-  color: var(--dark-navbar) !important;
+  background-color: var(--dark-accent, #555) !important;
+  color: var(--dark-navbar, #fff) !important;
+  border-bottom: 2px solid var(--dark-highlight, #118B50); /* Matches hover effect */
 }
 
 /* Tables */
