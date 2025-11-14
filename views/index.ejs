@@ -5,217 +5,220 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Assistant</title>
+
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Bootstrap JavaScript library for interactive elements -->
-    <script src="js/bootstrap.bundle.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Lucide icons for consistent iconography -->
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Lucide icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body class="bg-body">
 
-    <!-- Include the existing navbar -->
+    <!-- Navbar -->
     <%- include('partials/navbar') %>
 
     <!-- Main Content -->
-    <div id="meal-container" class="container"></div>
+    <div id="meal-container" class="container py-4"></div>
 
-    <!-- Include the existing footer -->
+    <!-- Recipe Modal -->
+    <%- include('partials/recipeModal') %>
+
+    <!-- Footer -->
     <%- include('partials/footer') %>
 
+    <!-- Bootstrap 5 JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        window.onload = loadMeals();
+        // Replaced load logic to fetch all meals in parallel (6 at once),
+        // use event delegation for recipe buttons, ensure images load eagerly,
+        // and clear any spinner/placeholders in the modal before populating.
+        document.addEventListener('DOMContentLoaded', loadMeals);
 
         async function loadMeals() {
-            // Create a container for the rows
             const mealContainer = document.getElementById('meal-container');
             mealContainer.innerHTML = '';
-            
-            // Add modal container to the DOM for the popup
-            if (!document.getElementById('recipe-modal')) {
-                const modalHTML = `
-                    <div class="modal fade" id="recipe-modal" tabindex="-1" role="dialog" aria-labelledby="recipeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="recipe-modal-title"></h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <img id="recipe-modal-image" class="img-fluid mb-3" alt="Meal image">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <h6>Ingredients:</h6>
-                                            <ul id="recipe-modal-ingredients" class="list-group mb-3"></ul>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <h6>Instructions:</h6>
-                                            <p id="recipe-modal-instructions"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.insertAdjacentHTML('beforeend', modalHTML);
-            }
-            
-            // Generate 2 rows
+
+            const total = 6;
+            // fetch all meals in parallel
+            const meals = await Promise.all(Array.from({ length: total }, () => fetchRandomMeal()));
+
+            // render into two rows of 3
             for (let row = 0; row < 2; row++) {
                 const rowDiv = document.createElement('div');
                 rowDiv.className = 'row';
                 mealContainer.appendChild(rowDiv);
-                
-                // Generate 3 meals per row
-                await generateRowOfMeals(rowDiv, 3);
+
+                for (let i = 0; i < 3; i++) {
+                    const meal = meals[row * 3 + i];
+                    if (!meal) continue;
+                    renderMealCard(rowDiv, meal);
+                }
             }
         }
 
-        async function generateRowOfMeals(rowElement, count) {
-            // Create and fetch multiple meals in parallel
-            const mealPromises = [];
-            for (let i = 0; i < count; i++) {
-                mealPromises.push(fetchRandomMeal());
-            }
-            
-            // Wait for all meals to be fetched
-            const meals = await Promise.all(mealPromises);
-            
-            // Add each meal to the row
-            meals.forEach(meal => {
-                const colDiv = document.createElement('div');
-                colDiv.className = 'col-sm-4';
-                colDiv.innerHTML = `
-                    <div class="card" style="margin: 1rem">
-                        <img class="card-img-top p-3 rounded-5" src="${meal.strMealThumb}" alt="Card image cap"></img>
-                        <div class="card-body">
-                            <h5 class="card-title">${meal.strMeal}</h5>
-                            <p class="card-text">${meal.strInstructions.substring(0, 150)}...</p>
-                            <button class="btn btn-avocado-out view-recipe-btn" 
-                                    data-id="${meal.idMeal}">
-                                View Recipe
-                            </button>
-                        </div>
+        function renderMealCard(container, meal) {
+            const col = document.createElement('div');
+            col.className = 'col-sm-4';
+
+            col.innerHTML = `
+                <div class="card my-3 shadow-sm">
+                    <img loading="eager" alt="${escapeHtml(meal.strMeal)}" class="card-img-top p-3 rounded-4" src="${meal.strMealThumb}">
+                    <div class="card-body">
+                        <h5 class="card-title">${escapeHtml(meal.strMeal)}</h5>
+                        <p class="card-text">${escapeHtml(meal.strInstructions ? meal.strInstructions.substring(0, 150) : 'No description available')}...</p>
+                        <button class="btn btn-avocado-out view-recipe-btn" data-id="${meal.idMeal}">
+                            View Recipe
+                        </button>
                     </div>
-                `;
-                rowElement.appendChild(colDiv);
-                
-                // Store the meal data in a global variable for easy access
-                if (!window.mealData) {
-                    window.mealData = {};
-                }
-                window.mealData[meal.idMeal] = meal;
-            });
-            
-            // Add event listeners to all buttons after they're added to DOM
-            document.querySelectorAll('.view-recipe-btn').forEach(button => {
-                button.addEventListener('click', showRecipeModal);
-            });
+                </div>
+            `;
+
+            container.appendChild(col);
+
+            if (!window.mealData) window.mealData = {};
+            window.mealData[meal.idMeal] = meal;
         }
 
-        function showRecipeModal(event) {
-            const button = event.currentTarget;
-            const mealId = button.dataset.id;
-            const meal = window.mealData[mealId];
-            
-            if (!meal) return;
-            
-            // Set modal content
-            document.getElementById('recipe-modal-title').textContent = meal.strMeal;
-            document.getElementById('recipe-modal-image').src = meal.strMealThumb;
-            document.getElementById('recipe-modal-instructions').textContent = meal.strInstructions;
-            
-            // Process ingredients
-            const ingredientsList = document.getElementById('recipe-modal-ingredients');
-            ingredientsList.innerHTML = '';
-            
-            // Loop through ingredients (API provides up to 20 ingredients)
-            for (let i = 1; i <= 20; i++) {
-                const ingredient = meal[`strIngredient${i}`];
-                const measure = meal[`strMeasure${i}`];
-                
-                if (ingredient && ingredient.trim() !== '') {
-                    const li = document.createElement('li');
-                    li.className = 'list-group-item';
-                    li.textContent = `${measure} ${ingredient}`;
-                    ingredientsList.appendChild(li);
+        // delegated click handler to avoid re-attaching listeners repeatedly
+        document.getElementById('meal-container').addEventListener('click', (e) => {
+            const btn = e.target.closest('.view-recipe-btn');
+            if (!btn) return;
+            showRecipeModal(btn.dataset.id);
+        });
+
+        // safe getter to avoid crashes if a partial doesn't include a specific element
+        function el(id) {
+            return document.getElementById(id) || null;
+        }
+
+        async function showRecipeModal(mealId) {
+            const modalEl = el('recipe-modal');
+            if (!modalEl) return;
+
+            // show modal immediately with loader visible
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
+
+            const titleEl = el('recipe-modal-title');
+            const loadingEl = el('recipe-loading');
+            const contentEl = el('recipe-content');
+            const errorEl = el('recipe-error');
+
+            if (titleEl) titleEl.textContent = 'Loading recipe...';
+            if (loadingEl) loadingEl.classList.remove('d-none');
+            if (contentEl) contentEl.classList.add('d-none');
+            if (errorEl) errorEl.classList.add('d-none');
+
+            // try to get cached meal, fallback to lookup by id
+            let meal = window.mealData && window.mealData[mealId];
+            if (!meal) {
+                try {
+                    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`);
+                    const data = await res.json();
+                    meal = data.meals && data.meals[0];
+                    if (meal) {
+                        if (!window.mealData) window.mealData = {};
+                        window.mealData[meal.idMeal] = meal;
+                    }
+                } catch (err) {
+                    console.error('Lookup failed', err);
+                    // show error state if fetch fails and no cached meal
+                    if (!meal) {
+                        if (loadingEl) loadingEl.classList.add('d-none');
+                        if (errorEl) errorEl.classList.remove('d-none');
+                        if (titleEl) titleEl.textContent = 'Recipe not available';
+                        return;
+                    }
                 }
             }
-            
-            // Show modal
-            $('#recipe-modal').modal('show');
+
+            if (!meal) {
+                // no data after attempt
+                if (loadingEl) loadingEl.classList.add('d-none');
+                if (errorEl) errorEl.classList.remove('d-none');
+                if (titleEl) titleEl.textContent = 'Recipe not available';
+                return;
+            }
+
+            // populate modal content
+            if (titleEl) titleEl.textContent = meal.strMeal || 'Untitled';
+            const imgEl = el('recipe-modal-image');
+            if (imgEl) {
+                imgEl.src = meal.strMealThumb || '';
+                imgEl.alt = meal.strMeal || 'Recipe image';
+            }
+
+            const instrEl = el('recipe-modal-instructions');
+            if (instrEl) instrEl.textContent = meal.strInstructions || 'No instructions available.';
+
+            const ingredientsList = el('recipe-modal-ingredients');
+            if (ingredientsList) {
+                ingredientsList.innerHTML = '';
+                for (let i = 1; i <= 20; i++) {
+                    const ing = meal[`strIngredient${i}`];
+                    const measure = meal[`strMeasure${i}`];
+                    if (ing && ing.trim() !== '') {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item';
+                        li.textContent = `${(measure || '').trim()} ${(ing || '').trim()}`.trim();
+                        ingredientsList.appendChild(li);
+                    }
+                }
+            }
+
+            // switch UI from loader -> content
+            if (loadingEl) loadingEl.classList.add('d-none');
+            if (contentEl) contentEl.classList.remove('d-none');
         }
 
         async function fetchRandomMeal() {
-            const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
-            const data = await response.json();
-            return data.meals[0];
+            const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+            const data = await res.json();
+            return data.meals && data.meals[0];
         }
 
         async function searchMeals() {
-    const query = document.getElementById('search-input').value.trim();
-    const mealContainer = document.getElementById('meal-container');
-    
-    if (query === '') {
-        loadMeals(); // Reload random meals when search is cleared
-        return;
-    }
+            const query = document.getElementById('search-input').value.trim();
+            const mealContainer = document.getElementById('meal-container');
+            mealContainer.innerHTML = '';
 
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
-    const data = await response.json();
-    
-    mealContainer.innerHTML = ''; // Clear previous results
+            if (query === '') {
+                return loadMeals();
+            }
 
-    if (!data.meals) {
-        mealContainer.innerHTML = `<p class="text-center mt-3">No meals found for "${query}"</p>`;
-        return;
-    }
+            const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(query)}`);
+            const data = await res.json();
 
-    // Create a row container for search results
-    const rowDiv = document.createElement('div');
-    rowDiv.className = 'row';
-    mealContainer.appendChild(rowDiv);
+            if (!data.meals) {
+                mealContainer.innerHTML = `<p class="text-center mt-4">No meals found for "${escapeHtml(query)}"</p>`;
+                return;
+            }
 
-    data.meals.forEach(meal => {
-        const colDiv = document.createElement('div');
-        colDiv.className = 'col-sm-4';
-        colDiv.innerHTML = `
-            <div class="card" style="margin: 1rem">
-                <img class="card-img-top p-3 rounded-5" src="${meal.strMealThumb}" alt="Meal image">
-                <div class="card-body">
-                    <h5 class="card-title">${meal.strMeal}</h5>
-                    <p class="card-text">${meal.strInstructions.substring(0, 150)}...</p>
-                    <button class="btn btn-avocado-out view-recipe-btn" data-id="${meal.idMeal}">View Recipe</button>
-                </div>
-            </div>
-        `;
-        rowDiv.appendChild(colDiv);
+            const row = document.createElement('div');
+            row.className = 'row';
+            mealContainer.appendChild(row);
 
-        // Store meal data globally
-        if (!window.mealData) {
-            window.mealData = {};
+            data.meals.forEach(meal => {
+                renderMealCard(row, meal);
+            });
         }
-        window.mealData[meal.idMeal] = meal;
-    });
 
-    // Attach event listeners for recipe buttons
-    document.querySelectorAll('.view-recipe-btn').forEach(button => {
-        button.addEventListener('click', showRecipeModal);
-    });
-    }
+        // small utility to avoid inserting raw HTML from API strings
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
     </script>
 
-    <!-- Initialize Lucide icons -->
     <script>
         lucide.createIcons();
     </script>

@@ -1,0 +1,53 @@
+  <!-- Fullscreen Recipe Modal -->
+  <div class="modal fade" id="recipe-modal" tabindex="-1" aria-labelledby="recipe-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen modal-dialog-centered">
+      <div class="modal-content rounded-0 shadow-sm">
+        <div class="modal-header bg-avocado text-white rounded-2 mb-4" style="border-bottom-width: 0">
+          <h1 class="modal-title fs-4" id="recipe-modal-title">Recipe Details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <!-- Loading State -->
+          <div id="recipe-loading" class="text-center">
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading recipe details...</p>
+          </div>
+          <!-- Content: Initially hidden -->
+          <div id="recipe-content" class="d-none">
+            <div class="container-fluid">
+              <div class="row">
+                <!-- Left Column: Image -->
+                <div class="mb-4 mb-lg-0">
+                  <img id="recipe-modal-image" src="https://via.placeholder.com/500" alt="Meal image" class="img-fluid rounded" />
+                </div>
+                <!-- Right Column: Instructions & Ingredients -->
+                <div class="col-lg-11 mx-auto mt-4">
+                  <h2 class="h5 mb-3">Instructions</h2>
+                  <p id="recipe-modal-instructions" class="lead">
+                    Step-by-step instructions go here.
+                  </p>
+                  <hr>
+                  <h2 class="h5 mb-3">Ingredients</h2>
+                  <ul id="recipe-modal-ingredients" class="list-group">
+                    <li class="list-group-item">Ingredient 1</li>
+                    <li class="list-group-item">Ingredient 2</li>
+                    <li class="list-group-item">Ingredient 3</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Error State: Initially hidden -->
+          <div id="recipe-error" class="alert alert-warning d-none mt-3">
+            No recipe found for this meal. Please try another search term.
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-avocado" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End of Recipe Modal -->
