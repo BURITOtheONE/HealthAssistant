@@ -10,9 +10,172 @@
   <link rel="stylesheet" href="css/style.css" />
   <!-- Lucide icons for consistent iconography -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- jQuery (if needed) and Bootstrap Bundle (Popper included) -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    /* Week Navigator Styles */
+    .day-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #198754;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: white;
+    }
+    
+    .day-circle:hover {
+      background-color: #9EDF9C;
+      color: #198754;
+      transform: scale(1.1);
+      box-shadow: 0 0 10px #86A873;
+    }
+    
+    .day-circle.active {
+      background-color: #198754;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .day-name {
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .day-number {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .nav-arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #198754;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: white;
+    }
+    
+    .nav-arrow:hover {
+      background-color: #198754;
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .month-selector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .month-display {
+      font-size: 24px;
+      font-weight: bold;
+      color: #198754;
+      min-width: 200px;
+      text-align: center;
+    }
+    
+    .meal-section {
+      margin-top: 10px;
+      padding: 15px;
+      background: #FBF6E9;
+      border-radius: 8px;
+      border: 1px solid #E3F0AF;
+    }
+    
+    .meal-item-display {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+      background: white;
+      border-radius: 5px;
+      border-left: 3px solid #198754;
+      transition: all 0.3s ease;
+    }
+
+    .meal-item-display:hover {
+      transform: translateX(5px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .btn-delete {
+      background-color: #F87171;
+      border: none;
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-delete:hover {
+      background-color: #D14C4C;
+      box-shadow: 0 0 10px #FF6B6B;
+    }
+
+    .meal-clickable {
+      cursor: pointer;
+      color: #198754;
+      text-decoration: underline;
+    }
+
+    .meal-clickable:hover {
+      color: #0d6efd;
+    }
+
+    /* Dark Mode Support */
+    body.dark-mode .day-circle {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+      border-color: #1F7D53;
+    }
+
+    body.dark-mode .day-circle:hover {
+      background-color: #27391C;
+    }
+
+    body.dark-mode .day-circle.active {
+      background-color: #1F7D53;
+      color: white;
+    }
+
+    body.dark-mode .nav-arrow {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+      border-color: #1F7D53;
+    }
+
+    body.dark-mode .nav-arrow:hover {
+      background-color: #1F7D53;
+      color: white;
+    }
+
+    body.dark-mode .month-display {
+      color: #1F7D53;
+    }
+
+    body.dark-mode .meal-section {
+      background-color: #27391C;
+      border-color: #1F7D53;
+    }
+
+    body.dark-mode .meal-item-display {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+  </style>
 </head>
 <body class="bg-body">
 
@@ -27,54 +190,89 @@
         <p class="text-muted">Plan your meals for the week</p>
       </div>
     </div>
+
+    <!-- Month/Year Selector -->
+    <div class="month-selector">
+      <div class="nav-arrow" id="prev-month">
+        <i data-lucide="chevron-left"></i>
+      </div>
+      <div class="month-display" id="month-display">Loading...</div>
+      <div class="nav-arrow" id="next-month">
+        <i data-lucide="chevron-right"></i>
+      </div>
+    </div>
+
+    <!-- Week Navigator -->
+    <div class="row align-items-center mb-4">
+      <div class="col-auto">
+        <div class="nav-arrow" id="prev-week">
+          <i data-lucide="chevron-left"></i>
+        </div>
+      </div>
+      <div class="col">
+        <div id="days-container" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+          <!-- Days will be inserted here -->
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="nav-arrow" id="next-week">
+          <i data-lucide="chevron-right"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Meal Planning Section -->
     <div class="row mt-4">
       <div class="col-sm-12">
         <div class="card shadow-sm">
           <div class="card-body">
-            <h2 class="card-title text-center">Plan Your Meals</h2>
+            <h2 class="card-title text-center" id="selected-date-title">Select a day</h2>
             <div class="row mt-4">
-              <div class="col-sm-12">
-                <input type="date" id="meal-date" class="form-control mb-3">
-              </div>
               <div class="col-sm-6 col-md-3 mb-3">
+                <label class="form-label">Breakfast</label>
                 <div class="input-group">
-                  <input type="text" id="breakfast" class="form-control" placeholder="Breakfast">
-                  <button class="btn btn-avocado" type="button" onclick="saveMealPlan()">
-                    <i data-lucide="plus"></i> Add
+                  <input type="text" id="breakfast" class="form-control" placeholder="Add breakfast">
+                  <button class="btn btn-avocado" type="button" id="add-breakfast">
+                    <i data-lucide="plus"></i>
                   </button>
                 </div>
               </div>
               <div class="col-sm-6 col-md-3 mb-3">
+                <label class="form-label">Lunch</label>
                 <div class="input-group">
-                  <input type="text" id="lunch" class="form-control" placeholder="Lunch">
-                  <button class="btn btn-avocado" type="button" onclick="saveMealPlan()">
-                    <i data-lucide="plus"></i> Add
+                  <input type="text" id="lunch" class="form-control" placeholder="Add lunch">
+                  <button class="btn btn-avocado" type="button" id="add-lunch">
+                    <i data-lucide="plus"></i>
                   </button>
                 </div>
               </div>
               <div class="col-sm-6 col-md-3 mb-3">
+                <label class="form-label">Dinner</label>
                 <div class="input-group">
-                  <input type="text" id="dinner" class="form-control" placeholder="Dinner">
-                  <button class="btn btn-avocado" type="button" onclick="saveMealPlan()">
-                    <i data-lucide="plus"></i> Add
+                  <input type="text" id="dinner" class="form-control" placeholder="Add dinner">
+                  <button class="btn btn-avocado" type="button" id="add-dinner">
+                    <i data-lucide="plus"></i>
                   </button>
                 </div>
               </div>
               <div class="col-sm-6 col-md-3 mb-3">
+                <label class="form-label">Snacks</label>
                 <div class="input-group">
-                  <input type="text" id="snacks" class="form-control" placeholder="Snacks">
-                  <button class="btn btn-avocado" type="button" onclick="saveMealPlan()">
-                    <i data-lucide="plus"></i> Add
+                  <input type="text" id="snacks" class="form-control" placeholder="Add snacks">
+                  <button class="btn btn-avocado" type="button" id="add-snacks">
+                    <i data-lucide="plus"></i>
                   </button>
                 </div>
               </div>
             </div>
+            
+            <!-- Planned Meals Display -->
             <div class="row mt-4">
               <div class="col-sm-12">
                 <h4>Planned Meals</h4>
-                <ul id="planned-meals" class="list-group">
-                  <!-- Planned meals will be dynamically added here -->
-                </ul>
+                <div id="meals-display">
+                  <p class="text-muted text-center">No meals planned for this day</p>
+                </div>
               </div>
             </div>
           </div>
@@ -83,18 +281,11 @@
     </div>
   </div>
 
-  <!-- Modal Trigger (example button) -->
-  <div class="container py-4 text-center">
-    <button type="button" class="btn btn-avocado btn-lg" data-bs-toggle="modal" data-bs-target="#recipe-modal">
-      Launch Last Recipe Modal
-    </button>
-  </div>
-
   <!-- Fullscreen Recipe Modal -->
   <div class="modal fade" id="recipe-modal" tabindex="-1" aria-labelledby="recipe-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen modal-dialog-centered">
       <div class="modal-content rounded-0 shadow-sm">
-        <div class="modal-header bg-avocado text-white">
+        <div class="modal-header bg-avocado text-white rounded-2 mb-4" style="border-bottom-width: 0">
           <h1 class="modal-title fs-4" id="recipe-modal-title">Recipe Details</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -111,11 +302,11 @@
             <div class="container-fluid">
               <div class="row">
                 <!-- Left Column: Image -->
-                <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="mb-4 mb-lg-0">
                   <img id="recipe-modal-image" src="https://via.placeholder.com/500" alt="Meal image" class="img-fluid rounded" />
                 </div>
                 <!-- Right Column: Instructions & Ingredients -->
-                <div class="col-lg-7">
+                <div class="col-lg-11 mx-auto mt-4">
                   <h2 class="h5 mb-3">Instructions</h2>
                   <p id="recipe-modal-instructions" class="lead">
                     Step-by-step instructions go here.
@@ -146,141 +337,360 @@
   <!-- Include the existing footer -->
   <%- include('partials/footer') %>
 
+  <!-- jQuery and Bootstrap Bundle -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
   <!-- Custom Script -->
   <script>
-    lucide.createIcons();
+    (function() {
+      'use strict';
 
-    document.getElementById('meal-date').addEventListener('change', loadMealPlan);
+      let currentDate = new Date();
+      let selectedDate = new Date();
+      let mealPlans = {};
 
-    async function loadMealPlan() {
-      const date = document.getElementById('meal-date').value;
-      if (!date) return;
-      const response = await fetch(`/meal-planner/${date}`);
-      const mealPlan = await response.json();
-      document.getElementById('breakfast').value = mealPlan?.meals?.breakfast || '';
-      document.getElementById('lunch').value = mealPlan?.meals?.lunch || '';
-      document.getElementById('dinner').value = mealPlan?.meals?.dinner || '';
-      document.getElementById('snacks').value = mealPlan?.meals?.snacks || '';
-      updatePlannedMeals(mealPlan?.meals);
-    }
-
-    async function saveMealPlan() {
-      const date = document.getElementById('meal-date').value;
-      if (!date) return;
-      const meals = {
-        breakfast: document.getElementById('breakfast').value,
-        lunch: document.getElementById('lunch').value,
-        dinner: document.getElementById('dinner').value,
-        snacks: document.getElementById('snacks').value
-      };
-      const response = await fetch(`/meal-planner/${date}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(meals)
+      // Wait for DOM to be ready
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('Initializing meal planner...');
+        initializePlanner();
       });
-      const mealPlan = await response.json();
-      updatePlannedMeals(mealPlan.meals);
-    }
 
-    function updatePlannedMeals(meals) {
-      const plannedMeals = document.getElementById('planned-meals');
-      plannedMeals.innerHTML = `
-        <li class="list-group-item">Breakfast: <span class="meal-item" data-meal="${meals?.breakfast || ''}">${meals?.breakfast || ''}</span></li>
-        <li class="list-group-item">Lunch: <span class="meal-item" data-meal="${meals?.lunch || ''}">${meals?.lunch || ''}</span></li>
-        <li class="list-group-item">Dinner: <span class="meal-item" data-meal="${meals?.dinner || ''}">${meals?.dinner || ''}</span></li>
-        <li class="list-group-item">Snacks: <span class="meal-item" data-meal="${meals?.snacks || ''}">${meals?.snacks || ''}</span></li>
-      `;
-      document.querySelectorAll('.meal-item').forEach(item => {
-        if (item.textContent.trim()) {
-          item.classList.add('text-primary', 'cursor-pointer');
-          item.style.cursor = 'pointer';
-          item.addEventListener('click', showMealDetails);
+      function initializePlanner() {
+        // Setup event listeners
+        document.getElementById('prev-month').addEventListener('click', () => changeMonth(-1));
+        document.getElementById('next-month').addEventListener('click', () => changeMonth(1));
+        document.getElementById('prev-week').addEventListener('click', () => changeWeek(-1));
+        document.getElementById('next-week').addEventListener('click', () => changeWeek(1));
+        
+        document.getElementById('add-breakfast').addEventListener('click', () => addMeal('breakfast'));
+        document.getElementById('add-lunch').addEventListener('click', () => addMeal('lunch'));
+        document.getElementById('add-dinner').addEventListener('click', () => addMeal('dinner'));
+        document.getElementById('add-snacks').addEventListener('click', () => addMeal('snacks'));
+
+        // Setup autocomplete
+        ['breakfast', 'lunch', 'dinner', 'snacks'].forEach(setupAutocomplete);
+
+        // Initialize display
+        updateMonthDisplay();
+        renderWeek();
+        selectDay(selectedDate);
+        
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
         }
-      });
-    }
+      }
 
-    async function showMealDetails(event) {
-      const mealName = event.target.dataset.meal;
-      if (!mealName) return;
-      // Show modal with loading state
-      const recipeModalEl = document.getElementById('recipe-modal');
-      const recipeModal = new bootstrap.Modal(recipeModalEl);
-      recipeModal.show();
-      document.getElementById('recipe-modal-title').textContent = mealName;
-      document.getElementById('recipe-loading').classList.remove('d-none');
-      document.getElementById('recipe-content').classList.add('d-none');
-      document.getElementById('recipe-error').classList.add('d-none');
+      function updateMonthDisplay() {
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                        'July', 'August', 'September', 'October', 'November', 'December'];
+        const display = document.getElementById('month-display');
+        if (display) {
+          display.textContent = `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+        }
+      }
 
-      try {
-        const formattedMealName = mealName.toLowerCase().replace(/\s+/g, '_');
-        const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${formattedMealName}`);
-        const data = await response.json();
-        if (data.meals && data.meals.length > 0) {
-          const meal = data.meals[0];
-          document.getElementById('recipe-modal-image').src = meal.strMealThumb;
-          document.getElementById('recipe-modal-instructions').textContent = meal.strInstructions;
-          const ingredientsList = document.getElementById('recipe-modal-ingredients');
-          ingredientsList.innerHTML = '';
-          for (let i = 1; i <= 20; i++) {
-            const ingredient = meal[`strIngredient${i}`];
-            const measure = meal[`strMeasure${i}`];
-            if (ingredient && ingredient.trim() !== '') {
-              const li = document.createElement('li');
-              li.className = 'list-group-item';
-              li.textContent = `${measure} ${ingredient}`;
-              ingredientsList.appendChild(li);
-            }
+      function renderWeek() {
+        const container = document.getElementById('days-container');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        const startOfWeek = new Date(currentDate);
+        const day = startOfWeek.getDay();
+        const diff = startOfWeek.getDate() - day + (day === 0 ? -6 : 1);
+        startOfWeek.setDate(diff);
+
+        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        
+        for (let i = 0; i < 7; i++) {
+          const date = new Date(startOfWeek);
+          date.setDate(startOfWeek.getDate() + i);
+          
+          const dayCircle = document.createElement('div');
+          dayCircle.className = 'day-circle';
+          if (isSameDay(date, selectedDate)) {
+            dayCircle.classList.add('active');
           }
-          document.getElementById('recipe-loading').classList.add('d-none');
-          document.getElementById('recipe-content').classList.remove('d-none');
-        } else {
+          
+          dayCircle.innerHTML = `
+            <div class="day-name">${days[i]}</div>
+            <div class="day-number">${date.getDate()}</div>
+          `;
+          
+          dayCircle.addEventListener('click', (function(d) {
+            return function() { selectDay(d); };
+          })(new Date(date)));
+          
+          container.appendChild(dayCircle);
+        }
+        
+        // Update month display based on the middle of the week
+        const midWeek = new Date(startOfWeek);
+        midWeek.setDate(startOfWeek.getDate() + 3);
+        currentDate.setMonth(midWeek.getMonth());
+        currentDate.setFullYear(midWeek.getFullYear());
+        updateMonthDisplay();
+        
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      }
+
+      function isSameDay(date1, date2) {
+        return date1.getDate() === date2.getDate() &&
+               date1.getMonth() === date2.getMonth() &&
+               date1.getFullYear() === date2.getFullYear();
+      }
+
+      function selectDay(date) {
+        selectedDate = new Date(date);
+        renderWeek();
+        updateSelectedDateTitle();
+        loadMealPlanFromServer();
+      }
+
+      function updateSelectedDateTitle() {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const title = document.getElementById('selected-date-title');
+        if (title) {
+          title.textContent = selectedDate.toLocaleDateString('en-US', options);
+        }
+      }
+
+      function changeWeek(direction) {
+        currentDate.setDate(currentDate.getDate() + (direction * 7));
+        renderWeek();
+      }
+
+      function changeMonth(direction) {
+        currentDate.setMonth(currentDate.getMonth() + direction);
+        updateMonthDisplay();
+        renderWeek();
+      }
+
+      function getDateKey(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      async function loadMealPlanFromServer() {
+        const dateKey = getDateKey(selectedDate);
+        try {
+          const response = await fetch(`/meal-planner/${dateKey}`);
+          const mealPlan = await response.json();
+          
+          if (mealPlan && mealPlan.meals) {
+            mealPlans[dateKey] = {
+              breakfast: mealPlan.meals.breakfast ? [mealPlan.meals.breakfast] : [],
+              lunch: mealPlan.meals.lunch ? [mealPlan.meals.lunch] : [],
+              dinner: mealPlan.meals.dinner ? [mealPlan.meals.dinner] : [],
+              snacks: mealPlan.meals.snacks ? [mealPlan.meals.snacks] : []
+            };
+          }
+        } catch (error) {
+          console.error('Error loading meal plan:', error);
+          // Initialize empty if error
+          if (!mealPlans[dateKey]) {
+            mealPlans[dateKey] = { breakfast: [], lunch: [], dinner: [], snacks: [] };
+          }
+        }
+        displayMeals();
+      }
+
+      async function addMeal(mealType) {
+        const input = document.getElementById(mealType);
+        if (!input) return;
+        
+        const mealText = input.value.trim();
+        if (!mealText) return;
+        
+        const dateKey = getDateKey(selectedDate);
+        if (!mealPlans[dateKey]) {
+          mealPlans[dateKey] = { breakfast: [], lunch: [], dinner: [], snacks: [] };
+        }
+        
+        mealPlans[dateKey][mealType].push(mealText);
+        
+        // Save to server
+        const meals = {
+          breakfast: mealPlans[dateKey].breakfast.join(', '),
+          lunch: mealPlans[dateKey].lunch.join(', '),
+          dinner: mealPlans[dateKey].dinner.join(', '),
+          snacks: mealPlans[dateKey].snacks.join(', ')
+        };
+        
+        try {
+          await fetch(`/meal-planner/${dateKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(meals)
+          });
+        } catch (error) {
+          console.error('Error saving meal plan:', error);
+        }
+        
+        input.value = '';
+        displayMeals();
+      }
+
+      window.removeMeal = async function(mealType, index) {
+        const dateKey = getDateKey(selectedDate);
+        if (mealPlans[dateKey] && mealPlans[dateKey][mealType]) {
+          mealPlans[dateKey][mealType].splice(index, 1);
+          
+          // Save to server
+          const meals = {
+            breakfast: mealPlans[dateKey].breakfast.join(', '),
+            lunch: mealPlans[dateKey].lunch.join(', '),
+            dinner: mealPlans[dateKey].dinner.join(', '),
+            snacks: mealPlans[dateKey].snacks.join(', ')
+          };
+          
+          try {
+            await fetch(`/meal-planner/${dateKey}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(meals)
+            });
+          } catch (error) {
+            console.error('Error saving meal plan:', error);
+          }
+          
+          displayMeals();
+        }
+      };
+
+      function displayMeals() {
+        const container = document.getElementById('meals-display');
+        if (!container) return;
+        
+        const dateKey = getDateKey(selectedDate);
+        const meals = mealPlans[dateKey];
+        
+        if (!meals || (meals.breakfast.length === 0 && meals.lunch.length === 0 && 
+            meals.dinner.length === 0 && meals.snacks.length === 0)) {
+          container.innerHTML = '<p class="text-muted text-center">No meals planned for this day</p>';
+          return;
+        }
+        
+        let html = '';
+        const mealTypes = {
+          breakfast: 'Breakfast',
+          lunch: 'Lunch',
+          dinner: 'Dinner',
+          snacks: 'Snacks'
+        };
+        
+        for (const [type, label] of Object.entries(mealTypes)) {
+          if (meals[type] && meals[type].length > 0) {
+            html += `<div class="meal-section">
+              <h5>${label}</h5>`;
+            meals[type].forEach((meal, index) => {
+              const escapedMeal = meal.replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+              html += `<div class="meal-item-display">
+                <span class="meal-clickable" onclick="showMealDetails('${escapedMeal}')">${meal}</span>
+                <button class="btn btn-delete btn-sm" onclick="removeMeal('${type}', ${index})">
+                  <i data-lucide="x"></i>
+                </button>
+              </div>`;
+            });
+            html += '</div>';
+          }
+        }
+        
+        container.innerHTML = html;
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      }
+
+      window.showMealDetails = async function(mealName) {
+        if (!mealName) return;
+        
+        mealName = mealName.replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+        
+        const recipeModalEl = document.getElementById('recipe-modal');
+        if (!recipeModalEl) return;
+        
+        const recipeModal = new bootstrap.Modal(recipeModalEl);
+        recipeModal.show();
+        
+        document.getElementById('recipe-modal-title').textContent = mealName;
+        document.getElementById('recipe-loading').classList.remove('d-none');
+        document.getElementById('recipe-content').classList.add('d-none');
+        document.getElementById('recipe-error').classList.add('d-none');
+
+        try {
+          const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(mealName)}`);
+          const data = await response.json();
+          
+          if (data.meals && data.meals.length > 0) {
+            const meal = data.meals[0];
+            document.getElementById('recipe-modal-image').src = meal.strMealThumb;
+            document.getElementById('recipe-modal-instructions').textContent = meal.strInstructions;
+            
+            const ingredientsList = document.getElementById('recipe-modal-ingredients');
+            ingredientsList.innerHTML = '';
+            for (let i = 1; i <= 20; i++) {
+              const ingredient = meal[`strIngredient${i}`];
+              const measure = meal[`strMeasure${i}`];
+              if (ingredient && ingredient.trim() !== '') {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = `${measure} ${ingredient}`;
+                ingredientsList.appendChild(li);
+              }
+            }
+            
+            document.getElementById('recipe-loading').classList.add('d-none');
+            document.getElementById('recipe-content').classList.remove('d-none');
+          } else {
+            document.getElementById('recipe-loading').classList.add('d-none');
+            document.getElementById('recipe-error').classList.remove('d-none');
+          }
+        } catch (error) {
+          console.error('Error fetching recipe:', error);
           document.getElementById('recipe-loading').classList.add('d-none');
           document.getElementById('recipe-error').classList.remove('d-none');
         }
-      } catch (error) {
-        console.error('Error fetching recipe:', error);
-        document.getElementById('recipe-loading').classList.add('d-none');
-        document.getElementById('recipe-error').classList.remove('d-none');
+      };
+
+      function setupAutocomplete(inputId) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        
+        input.addEventListener('input', async function () {
+          const query = input.value.trim();
+          if (query.length < 2) return;
+          try {
+            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            const datalistId = `${inputId}-datalist`;
+            let datalist = document.getElementById(datalistId);
+            if (!datalist) {
+              datalist = document.createElement('datalist');
+              datalist.id = datalistId;
+              document.body.appendChild(datalist);
+              input.setAttribute('list', datalistId);
+            }
+            datalist.innerHTML = '';
+            if (data.meals) {
+              data.meals.forEach(meal => {
+                const option = document.createElement('option');
+                option.value = meal.strMeal;
+                datalist.appendChild(option);
+              });
+            }
+          } catch (error) {
+            console.error('Error fetching autocomplete suggestions:', error);
+          }
+        });
       }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('meal-date').value = today;
-      loadMealPlan();
-    });
-
-    // Autocomplete for meal inputs
-    function setupAutocomplete(inputId) {
-      const input = document.getElementById(inputId);
-      input.addEventListener('input', async function () {
-        const query = input.value.trim();
-        if (query.length < 2) return;
-        try {
-          const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
-          const data = await response.json();
-          const datalistId = `${inputId}-datalist`;
-          let datalist = document.getElementById(datalistId);
-          if (!datalist) {
-            datalist = document.createElement('datalist');
-            datalist.id = datalistId;
-            document.body.appendChild(datalist);
-            input.setAttribute('list', datalistId);
-          }
-          datalist.innerHTML = '';
-          if (data.meals) {
-            data.meals.forEach(meal => {
-              const option = document.createElement('option');
-              option.value = meal.strMeal;
-              datalist.appendChild(option);
-            });
-          }
-        } catch (error) {
-          console.error('Error fetching autocomplete suggestions:', error);
-        }
-      });
-    }
-    ['breakfast', 'lunch', 'dinner', 'snacks'].forEach(setupAutocomplete);
+    })();
   </script>
 </body>
 </html>

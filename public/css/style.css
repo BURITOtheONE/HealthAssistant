@@ -12886,6 +12886,133 @@ body.dark-mode .dropdown-divider {
   opacity: 1;
 }
 
+/* === Light & Dark Mode for Recipe Modal === */
+
+/* Light Mode (default) */
+#recipe-modal .modal-content {
+  background-color: var(--light-card-bg);
+  color: var(--light-text);
+  border: 1px solid var(--light-border);
+}
+
+#recipe-modal .modal-header {
+  background-color: var(--light-navbar);
+  color: white;
+}
+
+#recipe-modal .modal-footer {
+  background-color: var(--light-bg);
+}
+
+#recipe-modal .lead {
+  color: var(--light-text);
+}
+
+#recipe-modal .modal-title {
+  color: var(--light-text);
+}
+
+#recipe-modal .list-group-item {
+  background-color: var(--light-input-bg);
+  color: var(--light-text);
+  border-color: var(--light-border);
+}
+
+/* Dark Mode */
+body.dark-mode #recipe-modal .modal-content {
+  background-color: var(--dark-card-bg);
+  color: var(--dark-text);
+  border: 1px solid var(--dark-border);
+}
+
+body.dark-mode #recipe-modal .modal-header {
+  background-color: var(--dark-navbar);
+  color: var(--dark-text);
+}
+
+body.dark-mode #recipe-modal .modal-footer {
+  background-color: var(--dark-bg);
+}
+
+body.dark-mode #recipe-modal .list-group-item {
+  background-color: var(--dark-input-bg);
+  color: var(--dark-text);
+  border-color: var(--dark-border);
+}
+
+body.dark-mode #recipe-modal .lead {
+  color: var(--dark-text);
+}
+
+
+body.dark-mode #recipe-modal .modal-title {
+    color: var(--dark-text);
+}
+
+/* Spinner */
+body.dark-mode #recipe-loading .spinner-border {
+  color: var(--dark-border) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #E3F0AF; /* Track color */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9EDF9C; /* Scroll handle color */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #75C985; /* Hover color */
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+  background: #27391C;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+  background: #1F7D53;
+  border: 2px solid #27391C;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+  background: #118B50;
+}
+
+/* Modal Scroll Bar Styling */
+/* Light mode (default) */
+#recipe-modal .modal-body::-webkit-scrollbar {
+  width: 10px;
+}
+
+#recipe-modal .modal-body::-webkit-scrollbar-track {
+  background: var(--light-card-bg);
+}
+
+#recipe-modal .modal-body::-webkit-scrollbar-thumb {
+  background: var(--light-border);
+  border: 2px solid var(--light-bg);
+  border-radius: 10px;
+}
+
+/* Dark Mode */
+body.dark-mode #recipe-modal .modal-body::-webkit-scrollbar-track {
+  background: var(--dark-card-bg);
+}
+
+body.dark-mode #recipe-modal .modal-body::-webkit-scrollbar-thumb {
+  background: var(--dark-border);
+  border: 2px solid var(--dark-bg);
+  border-radius: 10px;
+}
+
+
 /* Useful Colors
       #A0D683
       #72BF78    */
