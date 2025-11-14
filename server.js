@@ -310,6 +310,153 @@ app.post('/update-theme-preference', async (req, res) => {
   }
 });
 
+// Route to get dashboard data
+app.get('/dashboard', checkAuth, async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    const user = await User.findById(userId);
+    
+    const dashboardData = {
+      totalFavorites: user.favoriteRecipes ? user.favoriteRecipes.length : 0,
+      totalLists: user.recipeLists ? user.recipeLists.length : 0,
+      totalIngredients: await Ingredient.countDocuments({ creator: userId }),
+      recentFavorites: user.favoriteRecipes ? user.favoriteRecipes.slice(-5).reverse() : [],
+      recipeLists: user.recipeLists || []
+    };
+    
+    res.render('dashboard', { dashboardData });
+  } catch (error) {
+    console.error('Error fetching dashboard:', error);
+    res.redirect('/');
+  }
+});
+
+// Route to add recipe to favorites
+app.post('/api/favorites/add', checkAuth, async (req, res) => {
+  try {
+    const { recipeId, recipeName, recipeImage } = req.body;
+    const userId = req.session.userId;
+    
+    const user = await User.findById(userId);
+    
+    // Check if already favorited
+    const alreadyFavorited = user.favoriteRecipes.some(fav => fav.recipeId === recipeId);
+    if (alreadyFavorited) {
+      return res.status(400).json({ message: 'Already in favorites' });
+    }
+    
+    user.favoriteRecipes.push({
+      recipeId,
+      recipeName,
+      recipeImage
+    });
+    
+    await user.save();
+    res.status(200).json({ message: 'Added to favorites' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error adding to favorites' });
+  }
+});
+
+// Route to remove from favorites
+app.post('/api/favorites/remove', checkAuth, async (req, res) => {
+  try {
+    const { recipeId } = req.body;
+    const userId = req.session.userId;
+    
+    await User.findByIdAndUpdate(userId, {
+      $pull: { favoriteRecipes: { recipeId } }
+    });
+    
+    res.status(200).json({ message: 'Removed from favorites' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error removing from favorites' });
+  }
+});
+
+// Route to create recipe list
+app.post('/api/recipe-lists/create', checkAuth, async (req, res) => {
+  try {
+    const { listName, description } = req.body;
+    const userId = req.session.userId;
+    
+    const user = await User.findById(userId);
+    user.recipeLists.push({
+      listName,
+      description,
+      recipes: []
+    });
+    
+    await user.save();
+    res.status(200).json({ message: 'List created', lists: user.recipeLists });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error creating list' });
+  }
+});
+
+// Route to add recipe to list
+app.post('/api/recipe-lists/:listName/add', checkAuth, async (req, res) => {
+  try {
+    const { listName } = req.params;
+    const { recipeId, recipeName, recipeImage } = req.body;
+    const userId = req.session.userId;
+    
+    const user = await User.findById(userId);
+    const list = user.recipeLists.find(l => l.listName === listName);
+    
+    if (!list) {
+      return res.status(404).json({ message: 'List not found' });
+    }
+    
+    const alreadyInList = list.recipes.some(r => r.recipeId === recipeId);
+    if (alreadyInList) {
+      return res.status(400).json({ message: 'Already in list' });
+    }
+    
+    list.recipes.push({ recipeId, recipeName, recipeImage });
+    await user.save();
+    
+    res.status(200).json({ message: 'Added to list' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error adding to list' });
+  }
+});
+
+// Route to remove from list
+app.post('/api/recipe-lists/:listName/remove', checkAuth, async (req, res) => {
+  try {
+    const { listName } = req.params;
+    const { recipeId } = req.body;
+    const userId = req.session.userId;
+    
+    await User.findByIdAndUpdate(userId, {
+      $pull: { 'recipeLists.$[list].recipes': { recipeId } }
+    }, {
+      arrayFilters: [{ 'list.listName': listName }]
+    });
+    
+    res.status(200).json({ message: 'Removed from list' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error removing from list' });
+  }
+});
+
+// Get user's recipe lists
+app.get('/api/user-lists', checkAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.session.userId);
+    res.status(200).json({ lists: user.recipeLists || [] });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching lists' });
+  }
+});
+
 // Use meal planner routes
 app.use('/meal-planner', mealPlannerRoutes);
 

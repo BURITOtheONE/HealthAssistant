@@ -116,9 +116,37 @@ const UserSchema = new mongoose.Schema({
 
     // Recipe interaction tracking
     favoriteRecipes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Recipe'
+        recipeId: String,
+        recipeName: String,
+        recipeImage: String,
+        addedDate: {
+            type: Date,
+            default: Date.now
+        }
     }],
+    
+    // Recipe collections/lists
+    recipeLists: [{
+        listName: {
+            type: String,
+            required: true
+        },
+        description: String,
+        recipes: [{
+            recipeId: String,
+            recipeName: String,
+            recipeImage: String,
+            addedDate: {
+                type: Date,
+                default: Date.now
+            }
+        }],
+        createdDate: {
+            type: Date,
+            default: Date.now
+        }
+    }],
+
     cookedRecipes: [{
         recipe: {
             type: mongoose.Schema.Types.ObjectId,

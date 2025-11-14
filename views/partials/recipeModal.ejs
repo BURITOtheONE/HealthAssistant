@@ -1,4 +1,4 @@
-  <!-- Fullscreen Recipe Modal -->
+<!-- Fullscreen Recipe Modal -->
   <div class="modal fade" id="recipe-modal" tabindex="-1" aria-labelledby="recipe-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen modal-dialog-centered">
       <div class="modal-content rounded-0 shadow-sm">
@@ -17,6 +17,16 @@
           <!-- Content: Initially hidden -->
           <div id="recipe-content" class="d-none">
             <div class="container-fluid">
+              <div class="row mb-4">
+                <div class="col-12">
+                  <button class="btn btn-outline-danger" id="favorite-btn" onclick="addToFavorites()">
+                    <i data-lucide="heart" class="me-2"></i>Add to Favorites
+                  </button>
+                  <button class="btn btn-outline-primary ms-2" id="add-to-list-btn" onclick="showListModal()">
+                    <i data-lucide="list" class="me-2"></i>Add to List
+                  </button>
+                </div>
+              </div>
               <div class="row">
                 <!-- Left Column: Image -->
                 <div class="mb-4 mb-lg-0">
@@ -50,4 +60,156 @@
       </div>
     </div>
   </div>
+  
+  <!-- Add to List Modal -->
+  <div class="modal fade" id="add-list-modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Recipe to List</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="lists-container">
+            <p class="text-muted">Loading your lists...</p>
+          </div>
+          <hr>
+          <button class="btn btn-outline-success w-100" id="create-list-btn" onclick="showCreateListForm()">
+            <i data-lucide="plus" class="me-2"></i>Create New List
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Create List Modal -->
+  <div class="modal fade" id="create-list-modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Create New Recipe List</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="create-list-form">
+            <div class="mb-3">
+              <label class="form-label">List Name</label>
+              <input type="text" class="form-control" id="list-name" required placeholder="e.g., Healthy Breakfast">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" id="list-description" rows="3" placeholder="Optional description"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Create List</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- End of Recipe Modal -->
+
+  <script>
+    let currentRecipeId = null;
+    let currentRecipeName = null;
+    let currentRecipeImage = null;
+    
+    async function addToFavorites() {
+      if (!currentRecipeId) return;
+      
+      try {
+        const response = await fetch('/api/favorites/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            recipeId: currentRecipeId,
+            recipeName: currentRecipeName,
+            recipeImage: currentRecipeImage
+          })
+        });
+        
+        if (response.ok) {
+          const btn = document.getElementById('favorite-btn');
+          btn.classList.remove('btn-outline-danger');
+          btn.classList.add('btn-danger');
+          btn.innerHTML = '<i data-lucide="heart" class="me-2" style="fill: currentColor;"></i>Added to Favorites';
+          btn.disabled = true;
+          lucide.createIcons();
+        }
+      } catch (error) {
+        console.error('Error adding to favorites:', error);
+      }
+    }
+    
+    async function showListModal() {
+      const modal = new bootstrap.Modal(document.getElementById('add-list-modal'));
+      
+      try {
+        const response = await fetch('/api/user-lists', { method: 'GET' });
+        const data = await response.json();
+        
+        let html = '';
+        if (data.lists && data.lists.length > 0) {
+          data.lists.forEach(list => {
+            html += `<button class="btn btn-outline-primary w-100 mb-2" onclick="addToList('${list.listName}')">
+              ${list.listName} (${list.recipes.length} recipes)
+            </button>`;
+          });
+        } else {
+          html = '<p class="text-muted">No lists yet. Create one below!</p>';
+        }
+        
+        document.getElementById('lists-container').innerHTML = html;
+      } catch (error) {
+        console.error('Error loading lists:', error);
+      }
+      
+      modal.show();
+    }
+    
+    async function addToList(listName) {
+      if (!currentRecipeId) return;
+      
+      try {
+        await fetch(`/api/recipe-lists/${listName}/add`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            recipeId: currentRecipeId,
+            recipeName: currentRecipeName,
+            recipeImage: currentRecipeImage
+          })
+        });
+        
+        alert('Added to list!');
+        bootstrap.Modal.getInstance(document.getElementById('add-list-modal')).hide();
+      } catch (error) {
+        console.error('Error adding to list:', error);
+      }
+    }
+    
+    function showCreateListForm() {
+      bootstrap.Modal.getInstance(document.getElementById('add-list-modal')).hide();
+      new bootstrap.Modal(document.getElementById('create-list-modal')).show();
+    }
+    
+    document.getElementById('create-list-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const listName = document.getElementById('list-name').value;
+      const description = document.getElementById('list-description').value;
+      
+      try {
+        await fetch('/api/recipe-lists/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ listName, description })
+        });
+        
+        await addToList(listName);
+        bootstrap.Modal.getInstance(document.getElementById('create-list-modal')).hide();
+        document.getElementById('create-list-form').reset();
+      } catch (error) {
+        console.error('Error creating list:', error);
+      }
+    });
+  </script>

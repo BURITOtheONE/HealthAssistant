@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Health Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .stat-card {
+            background: linear-gradient(135deg, #198754 0%, #0d6efd 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 2rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        
+        .dashboard-section {
+            margin-bottom: 3rem;
+        }
+        
+        .recipe-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .recipe-card:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .recipe-card img {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 8px 12px;
+        }
+        
+        .favorite-btn.active {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body class="bg-body">
+    <%- include('partials/navbar') %>
+    
+    <div class="container mt-5 mb-5">
+        <!-- Dashboard Header -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h1 class="mb-2">Welcome, <%= session.username %>! 👋</h1>
+                <p class="text-muted">Here's an overview of your Health Assistant activity</p>
+            </div>
+        </div>
+        
+        <!-- Stats Section -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-number"><%= dashboardData.totalFavorites %></div>
+                    <div class="stat-label">Favorite Recipes</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-number"><%= dashboardData.totalLists %></div>
+                    <div class="stat-label">Recipe Lists</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-number"><%= dashboardData.totalIngredients %></div>
+                    <div class="stat-label">Ingredients</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-number"><%= dashboardData.recipeLists.length %></div>
+                    <div class="stat-label">Collections</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Favorites Section -->
+        <% if (dashboardData.recentFavorites && dashboardData.recentFavorites.length > 0) { %>
+        <div class="dashboard-section">
+            <h3 class="mb-4">
+                <i data-lucide="heart" class="me-2" style="color: #dc3545;"></i>Recent Favorites
+            </h3>
+            <div class="row g-4">
+                <% dashboardData.recentFavorites.forEach(recipe => { %>
+                <div class="col-md-4 col-sm-6">
+                    <div class="recipe-card position-relative">
+                        <img src="<%= recipe.recipeImage %>" alt="<%= recipe.recipeName %>" class="w-100">
+                        <button class="favorite-btn active" onclick="removeFromFavorites('<%= recipe.recipeId %>')">
+                            <i data-lucide="heart" style="fill: currentColor;"></i>
+                        </button>
+                        <div class="p-3">
+                            <h5 class="card-title mb-2"><%= recipe.recipeName %></h5>
+                            <small class="text-muted">Added <%= new Date(recipe.addedDate).toLocaleDateString() %></small>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+        <% } %>
+        
+        <!-- Recipe Lists Section -->
+        <% if (dashboardData.recipeLists && dashboardData.recipeLists.length > 0) { %>
+        <div class="dashboard-section">
+            <h3 class="mb-4">
+                <i data-lucide="list" class="me-2"></i>Your Recipe Lists
+            </h3>
+            <div class="row g-4">
+                <% dashboardData.recipeLists.forEach(list => { %>
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-avocado text-white">
+                            <h5 class="card-title mb-0"><%= list.listName %></h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text text-muted"><%= list.description || 'No description' %></p>
+                            <div class="mb-3">
+                                <small class="text-muted">
+                                    <i data-lucide="book-open"></i>
+                                    <%= list.recipes.length %> recipes
+                                </small>
+                            </div>
+                            <% if (list.recipes.length > 0) { %>
+                            <div class="list-group list-group-sm">
+                                <% list.recipes.slice(0, 3).forEach(recipe => { %>
+                                <a href="#" class="list-group-item list-group-item-action py-2">
+                                    <small><%= recipe.recipeName %></small>
+                                </a>
+                                <% }); %>
+                                <% if (list.recipes.length > 3) { %>
+                                <a href="#" class="list-group-item py-2 text-center">
+                                    <small class="text-muted">+<%= list.recipes.length - 3 %> more</small>
+                                </a>
+                                <% } %>
+                            </div>
+                            <% } else { %>
+                            <p class="text-muted mb-0"><small>No recipes yet</small></p>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+        <% } %>
+        
+        <!-- Quick Actions -->
+        <div class="dashboard-section">
+            <h3 class="mb-4">Quick Actions</h3>
+            <div class="row g-3">
+                <div class="col-md-3 col-sm-6">
+                    <a href="/recipe" class="btn btn-outline-primary w-100 py-3">
+                        <i data-lucide="search" class="me-2"></i>
+                        Explore Recipes
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="/fridge" class="btn btn-outline-success w-100 py-3">
+                        <i data-lucide="refrigerator" class="me-2"></i>
+                        My Fridge
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="/meal-planner" class="btn btn-outline-info w-100 py-3">
+                        <i data-lucide="calendar" class="me-2"></i>
+                        Meal Planner
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="/profile" class="btn btn-outline-warning w-100 py-3">
+                        <i data-lucide="user" class="me-2"></i>
+                        Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <%- include('partials/footer') %>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function removeFromFavorites(recipeId) {
+            if (confirm('Remove from favorites?')) {
+                fetch('/api/favorites/remove', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ recipeId })
+                })
+                .then(res => res.json())
+                .then(() => location.reload())
+                .catch(err => console.error(err));
+            }
+        }
+        
+        lucide.createIcons();
+    </script>
+</body>
+</html>
