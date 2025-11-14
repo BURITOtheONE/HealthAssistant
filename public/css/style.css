@@ -12113,28 +12113,26 @@ textarea.form-control-lg {
 .nav-item.dropdown:hover .dropdown-menu {
     position: absolute;
     display: block;
-    animation: dropmenu 0.5s ease-in-out;
+    animation: dropmenu 0.25s ease-in-out;
+}
+
+.nav-item.dropdown.active .dropdown-menu {
+    top: 100%;
+    left: 0;
+    margin-top: 0.5rem;
 }
 
 @keyframes dropmenu {
   0% {
-      margin-top: -0.5rem;
-      transform: rotate(-5deg);
+      margin-top: -0.2rem;
       opacity: 0;
   }
-  30% {
+  50% {
       margin-top: 0.2rem;
-      transform: rotate(3deg);
       opacity: 0.7;
-  }
-  60% {
-      margin-top: 0.1rem;
-      transform: rotate(-2deg);
-      opacity: 0.9;
   }
   100% {
       margin-top: 0rem;
-      transform: rotate(0deg);
       opacity: 1;
   }
 }

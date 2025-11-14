@@ -7,14 +7,15 @@ const path = require('path');
 const User = require('./public/assets/models/User');
 const Recipe = require('./public/assets/models/Recipe');
 const Ingredient = require('./public/assets/models/Ingredient');
-const MealPlan = require('./public/assets/models/MealPlan'); // Add this line
-const mealPlannerRoutes = require('./public/assets/routes/mealPlanner'); // Add this line
+const MealPlan = require('./public/assets/models/MealPlan');
+const mealPlannerRoutes = require('./public/assets/routes/mealPlanner');
 const app = express();
 
 // Connect to The DataBase
 mongoose.connect('mongodb+srv://burito:m%40rtinell2@healthassistant.gb7oc.mongodb.net/')
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('Could not connect to MongoDB Atlas', err));
+
 // Set up express-session middleware
 app.use(
   session({
@@ -72,8 +73,7 @@ app.get('/recipe', (req, res) => res.render('recipe'));
 // Still in progress
 app.get('/profile', (req, res) => res.render('profile'));
 app.get('/settings', (req, res) => res.render('settings'));
-app.get('/login', (req, res) =>{
-    res.render('login');});
+app.get('/login', (req, res) =>{ res.render('login');});
 app.get('/register', (req, res) => res.render('register'));
 app.get('/meal-planner', checkAuth, (req, res) => res.render('meal-planner')); // Add checkAuth middleware
 
@@ -96,7 +96,7 @@ app.post('/register', async (req, res) => {
     }
   });
   
-  // POST route to register a new User
+  // POST route to Log in
   app.post('/login', async (req, res) => {
     try {
       const { username, password } = req.body;
@@ -314,4 +314,4 @@ app.post('/update-theme-preference', async (req, res) => {
 app.use('/meal-planner', mealPlannerRoutes);
 
 // Start server at localhost:1505
-app.listen(process.env.PORT || 1505, () => console.log('Server running...'));
+app.listen(process.env.PORT || 1505, () => console.log('Server running on port 1505 ...'));
